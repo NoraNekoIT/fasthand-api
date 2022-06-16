@@ -62,6 +62,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>fasthand-api</finalName>
 	</build>
 
 </project>
