@@ -5,7 +5,7 @@
 
 
 - Jika target belum ada bisa compile dulu dengan cara
- `mvn clean package -u`
+ `mvn clean package `
 
 
 - Jalankan docker-compose untuk bikin image dan container `docker-compose up`
