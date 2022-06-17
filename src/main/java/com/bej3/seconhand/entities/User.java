@@ -1,6 +1,7 @@
 package com.bej3.seconhand.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "user")
 public class User {
@@ -24,4 +25,9 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private UserDetails userDetail;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Wishlist> wishlists;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Transaksi> transaksiList;
 }

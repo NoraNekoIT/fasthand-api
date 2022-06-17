@@ -1,5 +1,7 @@
 package com.bej3.seconhand.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity(name = "user_details")
@@ -12,8 +14,10 @@ public class UserDetails {
     @Column(name = "alamat")
     private String alamat;
 
-    @Column(name = "kota")
-    private String kota;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "id_kota")
+    private Kota kota;
 
     @Column(name = "no_hp")
     private String noHp;
@@ -24,7 +28,7 @@ public class UserDetails {
     private byte[] gambarUser;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user", nullable = false,unique = true)
+    @JoinColumn(name = "id_user", nullable = true,unique = true)
     private User user;
 
 }

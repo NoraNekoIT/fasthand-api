@@ -1,6 +1,7 @@
 package com.bej3.seconhand.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "promosi_banner")
 public class PromosiBanner {
@@ -10,8 +11,11 @@ public class PromosiBanner {
     private int idPromosi;
 
     @Column(name = "gambar_banner")
-    private int gambarBanner;
+    private byte[] gambarBanner;
 
     @Column(name = "label_promosi")
-    private int labelPromosi;
+    private String labelPromosi;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Produk> produkList;
 }
