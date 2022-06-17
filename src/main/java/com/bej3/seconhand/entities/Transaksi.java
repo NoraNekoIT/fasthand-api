@@ -12,7 +12,7 @@ public class Transaksi {
     private int idTransaksi;
 
     @Column(name = "harga_tawaran")
-    private int harga_tawaran;
+    private double harga_tawaran;
 
     @Column(name = "status_tawaran")
     private boolean status_tawaran;
