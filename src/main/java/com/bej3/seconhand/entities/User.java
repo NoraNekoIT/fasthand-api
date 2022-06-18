@@ -1,9 +1,18 @@
 package com.bej3.seconhand.entities;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Getter
+@Setter
 @Entity(name = "user")
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     @Column(name = "id_user")

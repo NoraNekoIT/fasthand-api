@@ -1,7 +1,12 @@
 package com.bej3.seconhand.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity(name = "kategori")
 public class Kategori {
 

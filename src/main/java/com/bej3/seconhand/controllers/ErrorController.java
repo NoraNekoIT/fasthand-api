@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+ @RestControllerAdvice
 public class ErrorController {
     @ExceptionHandler(value ={NotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -19,16 +19,16 @@ public class ErrorController {
         );
     }
 
-//    @ExceptionHandler(value ={Exception.class})
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    WebResponse<String> internalServerError(){
-//        return new WebResponse<>(
-//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-//                "INTERNAL SERVER ERROR",
-//                ""
-//        );
-//    }
-//
+    @ExceptionHandler(value ={Exception.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    WebResponse<String> internalServerError(Exception e){
+        return new WebResponse<>(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "INTERNAL SERVER ERROR",
+                e.getMessage()
+        );
+    }
+
 //    @ExceptionHandler(value ={Exception.class})
 //    @ResponseStatus(HttpStatus.UNAUTHORIZED)
 //    WebResponse<String> unauthorizedError(){
@@ -38,8 +38,8 @@ public class ErrorController {
 //                ""
 //        );
 //    }
-//
-//    @ExceptionHandler(value ={Exception.class})
+
+//    @ExceptionHandler(value ={UnknownException.class})
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
 //    WebResponse<String> badRequestError(){
 //        return new WebResponse<>(
