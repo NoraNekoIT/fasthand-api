@@ -1,7 +1,6 @@
 package com.bej3.seconhand.entities;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity(name = "user")
 public class User {
@@ -13,7 +12,7 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
 
     @Column(name = "password")
@@ -25,9 +24,20 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private UserDetails userDetail;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Wishlist> wishlists;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private Set<Wishlist> wishlists;
+//
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private Set<Transaksi> transaksiList;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Transaksi> transaksiList;
+    public User(String name, String email, String password, boolean role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User() {
+
+    }
 }
