@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity(name = "wishlist")
 public class Wishlist {
     @Id
-    @GeneratedValue( strategy = GenerationType.AUTO)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(name = "id_wishlist")
     private int idWishlist;
 

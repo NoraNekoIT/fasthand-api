@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Kota implements Serializable {
     private static final long serialVersionUID = 2L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_kota")
     private int idKota;
 

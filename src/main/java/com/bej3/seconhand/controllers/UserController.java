@@ -1,7 +1,9 @@
 package com.bej3.seconhand.controllers;
 
 import com.bej3.seconhand.entities.User;
+import com.bej3.seconhand.entities.UserDetails;
 import com.bej3.seconhand.errors.NotFoundException;
+import com.bej3.seconhand.payloads.requests.UserUpdateRequest;
 import com.bej3.seconhand.payloads.requests.UserRequest;
 import com.bej3.seconhand.payloads.responses.WebResponse;
 import com.bej3.seconhand.services.UserService;
@@ -20,7 +22,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("/daftar")
     public WebResponse<User> daftarUser(@RequestBody UserRequest userRequest){
         User user = userService.addUser(userRequest);
         return new WebResponse<>(
@@ -36,6 +38,16 @@ public class UserController {
                 HttpStatus.OK.value(),
                 "GET ID",
                 userService.getUserById(id)
+        );
+    }
+
+    @PostMapping("/update")
+    public WebResponse<UserDetails> updateUserDetail(@RequestBody UserUpdateRequest updateUserRequest) throws NotFoundException {
+        UserDetails userDetails = userService.updateUserDetail(updateUserRequest);
+        return new WebResponse<>(
+                HttpStatus.OK.value(),
+                "BERHASIL UPDATE",
+                userDetails
         );
     }
 

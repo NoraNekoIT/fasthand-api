@@ -20,7 +20,7 @@ public class KotaController {
         this.kotaService = kotaService;
     }
 
-    @GetMapping
+    @GetMapping("/getListKota")
     public WebResponse<List<Kota>> getListKota(){
         return new WebResponse<>(
                 HttpStatus.OK.value(),
@@ -29,7 +29,7 @@ public class KotaController {
         );
     }
 
-    @PostMapping
+    @PostMapping("/addKota")
     public WebResponse<Kota> insertKota(@RequestBody KotaRequest kotaRequest){
         Kota kota = kotaService.insertKota(kotaRequest);
         return new WebResponse<>(

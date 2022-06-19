@@ -1,4 +1,4 @@
- package com.bej3.seconhand.controllers;
+package com.bej3.seconhand.controllers;
 
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.responses.WebResponse;

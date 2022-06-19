@@ -1,9 +1,12 @@
 package com.bej3.seconhand.services.impls;
 
+import com.bej3.seconhand.entities.Kota;
 import com.bej3.seconhand.entities.User;
 import com.bej3.seconhand.entities.UserDetails;
 import com.bej3.seconhand.errors.NotFoundException;
+import com.bej3.seconhand.payloads.requests.UserUpdateRequest;
 import com.bej3.seconhand.payloads.requests.UserRequest;
+import com.bej3.seconhand.repositories.KotaRepository;
 import com.bej3.seconhand.repositories.UserDetailRepository;
 import com.bej3.seconhand.repositories.UserRepository;
 import com.bej3.seconhand.services.UserService;
@@ -15,11 +18,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserDetailRepository userDetailRepository;
+    private final KotaRepository kotaRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserDetailRepository userDetailRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           UserDetailRepository userDetailRepository,
+                           KotaRepository kotaRepository
+                           ) {
         this.userRepository = userRepository;
         this.userDetailRepository =userDetailRepository;
+        this.kotaRepository = kotaRepository;
     }
 
     @Override
@@ -41,6 +49,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(int id) throws NotFoundException {
         return userRepository.findById(id).orElseThrow(NotFoundException::new);
+    }
+
+    @Override
+    public UserDetails updateUserDetail(UserUpdateRequest updateUserRequest) throws NotFoundException {
+        UserDetails userDetails = userDetailRepository.findById(updateUserRequest.getIdUserDetails()).orElseThrow(NotFoundException::new);
+        userDetails.setAlamat(updateUserRequest.getAlamat());
+        Kota kota = kotaRepository.findById(updateUserRequest.getIdKota()).orElseThrow(NotFoundException::new);
+        userDetails.setKota(kota);
+        return userDetails;
     }
 
 }

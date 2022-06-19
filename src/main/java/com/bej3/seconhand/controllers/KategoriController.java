@@ -21,7 +21,7 @@ public class KategoriController {
         this.kategoriService = kategoriService;
     }
 
-    @GetMapping
+    @GetMapping("/getListKategori")
     public WebResponse<List<Kategori>> getListKategori(){
         return new WebResponse<>(
                 HttpStatus.OK.value(),
@@ -29,4 +29,5 @@ public class KategoriController {
                 kategoriService.getListKategori()
         );
     }
+
 }

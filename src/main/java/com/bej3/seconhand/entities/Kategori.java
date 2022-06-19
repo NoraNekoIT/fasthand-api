@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Kategori {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_kategori")
     private int idKategori;
 

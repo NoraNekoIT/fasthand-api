@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class UserDetails implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue( strategy = GenerationType.AUTO)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(name = "id_user_details")
     private int idUserDetails;
 
