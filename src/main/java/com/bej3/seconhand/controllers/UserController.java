@@ -3,6 +3,7 @@ package com.bej3.seconhand.controllers;
 import com.bej3.seconhand.entities.User;
 import com.bej3.seconhand.entities.UserDetails;
 import com.bej3.seconhand.errors.NotFoundException;
+import com.bej3.seconhand.payloads.requests.LoginRequest;
 import com.bej3.seconhand.payloads.requests.UserUpdateRequest;
 import com.bej3.seconhand.payloads.requests.UserRequest;
 import com.bej3.seconhand.payloads.responses.WebResponse;
@@ -10,6 +11,8 @@ import com.bej3.seconhand.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -48,6 +51,16 @@ public class UserController {
                 HttpStatus.OK.value(),
                 "BERHASIL UPDATE",
                 userDetails
+        );
+    }
+
+    @PostMapping("/login")
+    public WebResponse<User> loginDaftar(@RequestBody LoginRequest loginRequest) throws NotFoundException {
+       User user = userService.loginUser(loginRequest);
+        return new WebResponse<>(
+                HttpStatus.OK.value(),
+                "Berhasil Login",
+                user
         );
     }
 
