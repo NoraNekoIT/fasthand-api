@@ -8,8 +8,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Entity(name = "user")
-public class User implements Serializable {
+@Entity(name = "users")
+public class Users implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -29,7 +29,7 @@ public class User implements Serializable {
     @Column(name = "role")
     private boolean role;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "users")
     private UserDetails userDetail;
 
 //    @OneToMany(cascade = CascadeType.ALL)
@@ -38,14 +38,14 @@ public class User implements Serializable {
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Set<Transaksi> transaksiList;
 
-    public User(String name, String email, String password, boolean role) {
+    public Users(String name, String email, String password, boolean role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public User() {
+    public Users() {
 
     }
 }

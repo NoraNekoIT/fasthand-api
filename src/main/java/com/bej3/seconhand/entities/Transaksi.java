@@ -23,7 +23,7 @@ public class Transaksi {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_user_pembeli")
-    private User user;
+    private Users user;
 
     @JsonIgnore
     @ManyToOne

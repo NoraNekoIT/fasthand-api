@@ -38,7 +38,7 @@ public class UserDetails implements Serializable {
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user", nullable = true,unique = true)
-    private User user;
+    private Users users;
 
     public UserDetails(String alamat, String noHp, byte[] gambarUser) {
         this.alamat = alamat;

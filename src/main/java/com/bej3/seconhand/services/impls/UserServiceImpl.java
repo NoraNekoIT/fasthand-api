@@ -1,7 +1,7 @@
 package com.bej3.seconhand.services.impls;
 
 import com.bej3.seconhand.entities.Kota;
-import com.bej3.seconhand.entities.User;
+import com.bej3.seconhand.entities.Users;
 import com.bej3.seconhand.entities.UserDetails;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.requests.LoginRequest;
@@ -13,8 +13,6 @@ import com.bej3.seconhand.repositories.UserRepository;
 import com.bej3.seconhand.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,15 +32,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User loginUser(LoginRequest loginRequest) throws NotFoundException {
-        User user =userRepository.login(loginRequest.getEmail(),
+    public Users loginUser(LoginRequest loginRequest) throws NotFoundException {
+        Users user =userRepository.login(loginRequest.getEmail(),
                 loginRequest.getPassword()).orElseThrow(NotFoundException::new);
         return user;
     }
 
     @Override
-    public User addUser(UserRequest userRequest) {
-        User user =  new User(
+    public Users addUser(UserRequest userRequest) {
+        Users user =  new Users(
                 userRequest.getName(),
                 userRequest.getEmail(),
                 userRequest.getPassword(),
@@ -54,12 +52,12 @@ public class UserServiceImpl implements UserService {
                 null
         );
         user.setUserDetail(userDetails);
-        userDetails.setUser(user);
+        userDetails.setUsers(user);
         return userRepository.save(user);
     }
 
     @Override
-    public User getUserById(int id) throws NotFoundException {
+    public Users getUserById(int id) throws NotFoundException {
         return userRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 

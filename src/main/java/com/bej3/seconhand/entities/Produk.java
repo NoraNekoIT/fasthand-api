@@ -37,7 +37,7 @@ public class Produk {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_user_penjual")
-    private User user;
+    private Users user;
 
     @JsonIgnore
     @ManyToOne

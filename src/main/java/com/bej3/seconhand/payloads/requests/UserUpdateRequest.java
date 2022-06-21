@@ -10,5 +10,5 @@ public class UserUpdateRequest {
     private String alamat;
     private int idKota;
     private String noHp;
-//    private byte[] gambarUser;
+    private byte[] gambarUser;
 }

@@ -1,6 +1,5 @@
 package com.bej3.seconhand.controllers;
-
-import com.bej3.seconhand.entities.User;
+import com.bej3.seconhand.entities.Users;
 import com.bej3.seconhand.entities.UserDetails;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.requests.LoginRequest;
@@ -11,8 +10,6 @@ import com.bej3.seconhand.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -26,8 +23,8 @@ public class UserController {
     }
 
     @PostMapping("/daftar")
-    public WebResponse<User> daftarUser(@RequestBody UserRequest userRequest){
-        User user = userService.addUser(userRequest);
+    public WebResponse<Users> daftarUser(@RequestBody UserRequest userRequest){
+        Users user = userService.addUser(userRequest);
         return new WebResponse<>(
                 HttpStatus.OK.value(),
                 "BERHASIL INSERT",
@@ -36,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public WebResponse<User> getUserById(@PathVariable("id")  int id) throws NotFoundException {
+    public WebResponse<Users> getUserById(@PathVariable("id")  int id) throws NotFoundException {
         return new WebResponse<>(
                 HttpStatus.OK.value(),
                 "GET ID",
@@ -55,8 +52,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public WebResponse<User> loginDaftar(@RequestBody LoginRequest loginRequest) throws NotFoundException {
-       User user = userService.loginUser(loginRequest);
+    public WebResponse<Users> loginDaftar(@RequestBody LoginRequest loginRequest) throws NotFoundException {
+       Users user = userService.loginUser(loginRequest);
         return new WebResponse<>(
                 HttpStatus.OK.value(),
                 "Berhasil Login",
