@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -12,10 +14,10 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @EntityScan(basePackages = {"com/bej3/seconhand/entities"})
 @OpenAPIDefinition(
         info = @Info(title = "API Fasthand",
-                description = "STAGING VERSION -> API FASTHAND API BY BEJ-3 KELOMPOK 2",
+                description = "API FASTHAND API BY BEJ-3 KELOMPOK 2 ",
                 version = "v1.0.0",
                 contact = @Contact(
-                        name = "",
+                        name = "API SUPPORT",
                         url = "",
                         email = ""
 
@@ -24,9 +26,24 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
                         name = "",
                         url = ""
                 ),
-                termsOfService =""
+                termsOfService = "")
+        ,
+        servers = {
+                @Server(
+                        url = "https://staging-fasthand-api.herokuapp.com/",
+                        description = "The Staging API Server"),
+                @Server(
+                        url ="https://production-fasthand-api.herokuapp.com/",
+                        description = "THE Production API Server"
+                )
+        }
+        ,
+        security = @SecurityRequirement(
+                name = ""
         )
+
 )
+
 public class SeconhandApplication {
     public static void main(String[] args) {
         SpringApplication.run(SeconhandApplication.class, args);
