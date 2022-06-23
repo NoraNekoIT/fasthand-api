@@ -11,5 +11,5 @@ public interface ProdukService {
     Stream<ProdukResponse> getListProduk();
     Stream<ProdukResponse> getListProdukByPenjual(int idPenjual) throws NotFoundException;
     Stream<ProdukResponse> getListProdukByKategori(int kategori) throws NotFoundException;
-
+    void deleteProduk(int idProduk);
 }

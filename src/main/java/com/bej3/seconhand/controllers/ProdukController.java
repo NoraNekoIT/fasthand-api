@@ -1,4 +1,5 @@
 package com.bej3.seconhand.controllers;
+
 import com.bej3.seconhand.entities.Produk;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.requests.ProdukAddRequest;
@@ -24,7 +25,7 @@ public class ProdukController {
     }
 
     @GetMapping("/getListProduk")
-    public WebResponse<Stream<ProdukResponse>> getListProduk(){
+    public WebResponse<Stream<ProdukResponse>> getListProduk() {
         return new WebResponse<>(
                 HttpStatus.OK.value(),
                 "Get list all produk",
@@ -40,6 +41,7 @@ public class ProdukController {
                 produkService.getListProdukByPenjual(idPenjual)
         );
     }
+
     @GetMapping("/getListProduk/kategori/{idKategori}")
     public WebResponse<Stream<ProdukResponse>> getListProdukByKategori(@PathVariable int idKategori) throws NotFoundException {
         return new WebResponse<>(
@@ -57,6 +59,17 @@ public class ProdukController {
                 "Berhasil add Produk",
                 produk
         );
+    }
+
+    @DeleteMapping("/deleteProduk/{idProduk}")
+    public WebResponse<String> deleteProduk(@PathVariable int idProduk) {
+        produkService.deleteProduk(idProduk);
+        return new WebResponse<String>(
+                HttpStatus.OK.value(),
+                "Berhasil Delete",
+                ""
+        );
+
     }
 
 }

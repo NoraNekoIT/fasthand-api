@@ -76,6 +76,11 @@ public class ProdukServiceImpl implements ProdukService {
                 stream().map(this::convertProdukToProdukResponse);
     }
 
+    @Override
+    public void deleteProduk(int idProduk) {
+        produkRepository.deleteById(idProduk);
+    }
+
     private ProdukResponse convertProdukToProdukResponse(Produk produk) {
         return new ProdukResponse(
                 produk.getIdProduk(),
