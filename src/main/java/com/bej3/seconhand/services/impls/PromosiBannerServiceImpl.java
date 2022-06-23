@@ -24,11 +24,18 @@ public class PromosiBannerServiceImpl implements PromosiBannerService {
 
     @Override
     public String uploadPromosiBanner(MultipartFile file, int idPromosi) throws IOException {
-        PromosiBanner promosiBanner = new PromosiBanner(
-                file.getOriginalFilename(),
-                file.getBytes()
-        );
-        promosiBannerRepository.save(promosiBanner);
+        try{
+            PromosiBanner promosiBanner = new PromosiBanner(
+                    file.getOriginalFilename(),
+                    file.getBytes()
+            );
+            promosiBannerRepository.save(promosiBanner);
+        }
+        catch (
+                Exception e
+        ){
+            e.printStackTrace();
+        }
         return "sukses upload gambar" + file.getOriginalFilename();
     }
 
