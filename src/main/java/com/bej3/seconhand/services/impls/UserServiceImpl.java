@@ -5,6 +5,7 @@ import com.bej3.seconhand.entities.Users;
 import com.bej3.seconhand.entities.UserDetails;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.requests.LoginRequest;
+import com.bej3.seconhand.payloads.requests.UserDetailRequest;
 import com.bej3.seconhand.payloads.requests.UserUpdateRequest;
 import com.bej3.seconhand.payloads.requests.UserRequest;
 import com.bej3.seconhand.repositories.KotaRepository;
@@ -12,10 +13,12 @@ import com.bej3.seconhand.repositories.UserDetailRepository;
 import com.bej3.seconhand.repositories.UserRepository;
 import com.bej3.seconhand.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,9 +39,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users loginUser(LoginRequest loginRequest) throws NotFoundException {
-        Users user =userRepository.login(loginRequest.getEmail(),
+        return userRepository.login(loginRequest.getEmail(),
                 loginRequest.getPassword()).orElseThrow(NotFoundException::new);
-        return user;
     }
 
     @Override
@@ -46,8 +48,7 @@ public class UserServiceImpl implements UserService {
         Users user =  new Users(
                 userRequest.getName(),
                 userRequest.getEmail(),
-                userRequest.getPassword(),
-                false
+                userRequest.getPassword()
         );
         UserDetails userDetails = new UserDetails(
                 "",
@@ -65,6 +66,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDetailRequest findUserDetailLogin(){
+        SecurityContext ctx = SecurityContextHolder.getContext();
+        UserDetailRequest userDetailRequest = new UserDetailRequest();
+        userDetailRequest.setEmail(ctx.getAuthentication().getName());
+        return userDetailRequest;
+    }
+
+
+    @Override
     public UserDetails updateUserDetail(UserUpdateRequest updateUserRequest) throws NotFoundException, IOException {
         UserDetails userDetails = userDetailRepository.findById(updateUserRequest.getIdUserDetails()).orElseThrow(NotFoundException::new);
         userDetails.setAlamat(updateUserRequest.getAlamat());
@@ -75,4 +85,9 @@ public class UserServiceImpl implements UserService {
         return userDetails;
     }
 
+    @Override
+    public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(()->new UsernameNotFoundException("invalid email"));
+    }
 }

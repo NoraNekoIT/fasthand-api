@@ -4,6 +4,7 @@ import com.bej3.seconhand.entities.Users;
 import com.bej3.seconhand.entities.UserDetails;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.requests.LoginRequest;
+import com.bej3.seconhand.payloads.requests.UserDetailRequest;
 import com.bej3.seconhand.payloads.requests.UserUpdateRequest;
 import com.bej3.seconhand.payloads.requests.UserRequest;
 import com.bej3.seconhand.payloads.responses.WebResponse;
@@ -11,6 +12,7 @@ import com.bej3.seconhand.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,6 +40,7 @@ public class UserController {
         );
     }
 
+    @PreAuthorize("hasRole('SELLER')")
     @GetMapping("/{id}")
     public WebResponse<Users> getUserById(@PathVariable("id") int id) throws NotFoundException {
         return new WebResponse<>(
@@ -72,6 +75,12 @@ public class UserController {
                 "Berhasil Login",
                 user
         );
+    }
+
+    @PreAuthorize("hasRole('BUYER')")
+    @GetMapping("/detailLogin")
+    public UserDetailRequest findUserDetailLogin(){
+        return userService.findUserDetailLogin();
     }
 
 }
