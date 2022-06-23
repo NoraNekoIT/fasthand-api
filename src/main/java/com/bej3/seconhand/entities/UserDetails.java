@@ -31,7 +31,7 @@ public class UserDetails implements Serializable {
     private String noHp;
 
     @Lob
-    @Basic(fetch = FetchType.LAZY)
+//    @Basic(fetch = FetchType.LAZY)
     @Column(name = "gambar_user")
     private byte[] gambarUser;
 

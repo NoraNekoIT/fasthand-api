@@ -18,7 +18,7 @@ public class Kategori {
     @Column(name = "nama_kategori")
     private String namaKategori;
 
-    //setiap one to many dia bikin table
+    //    setiap one to many dia bikin table
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Set<Produk> produks;
 

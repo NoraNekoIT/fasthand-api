@@ -1,9 +1,15 @@
 package com.bej3.seconhand.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity(name = "produk")
 public class Produk {
     @Id
@@ -52,4 +58,13 @@ public class Produk {
 //
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Set<Transaksi> transaksiList ;
+
+    public Produk(boolean statusTerhapus, String namaProduk, boolean statusTerjual, String deskripsiProduk, double hargaProduk, double potonganDiskon) {
+        this.statusTerhapus = statusTerhapus;
+        this.namaProduk = namaProduk;
+        this.statusTerjual = statusTerjual;
+        this.deskripsiProduk = deskripsiProduk;
+        this.hargaProduk = hargaProduk;
+        this.potonganDiskon = potonganDiskon;
+    }
 }

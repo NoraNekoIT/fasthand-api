@@ -26,22 +26,23 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
                         name = "",
                         url = ""
                 ),
-                termsOfService = "")
-        ,
+                termsOfService = ""),
         servers = {
                 @Server(
                         url = "https://staging-fasthand-api.herokuapp.com/",
                         description = "The Staging API Server"),
                 @Server(
                         url ="https://production-fasthand-api.herokuapp.com/",
-                        description = "THE Production API Server"
+                        description = "The Production API Server"
+                ),
+                @Server(
+                        url = "http://localhost:8089/",
+                        description = "The Lokal Development API Server"
                 )
-        }
-        ,
+        },
         security = @SecurityRequirement(
                 name = ""
         )
-
 )
 
 public class SeconhandApplication {

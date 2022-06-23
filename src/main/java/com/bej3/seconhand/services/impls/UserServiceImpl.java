@@ -13,6 +13,9 @@ import com.bej3.seconhand.repositories.UserRepository;
 import com.bej3.seconhand.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -62,11 +65,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails updateUserDetail(UserUpdateRequest updateUserRequest) throws NotFoundException {
+    public UserDetails updateUserDetail(UserUpdateRequest updateUserRequest) throws NotFoundException, IOException {
         UserDetails userDetails = userDetailRepository.findById(updateUserRequest.getIdUserDetails()).orElseThrow(NotFoundException::new);
         userDetails.setAlamat(updateUserRequest.getAlamat());
         Kota kota = kotaRepository.findById(updateUserRequest.getIdKota()).orElseThrow(NotFoundException::new);
         userDetails.setKota(kota);
+        userDetails.setGambarUser(updateUserRequest.
+                getFile().getBytes());
         return userDetails;
     }
 

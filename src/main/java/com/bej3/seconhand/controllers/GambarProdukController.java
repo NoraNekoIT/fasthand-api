@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/gambarProduk")
@@ -24,7 +26,8 @@ public class GambarProdukController {
 
 
     @RequestMapping(value = "/upload/{idProduk}",method = RequestMethod.POST,consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public WebResponse<String> uploadGambarProduk(@RequestParam(value = "upload")MultipartFile file, @PathVariable("idProduk")  int idProduk ) throws IOException{
+    public WebResponse<String> uploadGambarProduk(@RequestParam(value = "upload")MultipartFile file,
+                                                  @PathVariable("idProduk")  int idProduk ) throws IOException{
         gambarProdukService.uploadGambarProduk(file, idProduk);
         return new WebResponse<>(
                 HttpStatus.OK.value(),
@@ -41,4 +44,12 @@ public class GambarProdukController {
                 .contentType(MediaType.valueOf(gambarProduk.getType()))
                 .body(gambarProduk.getGambarProduk());
     }
+//    @GetMapping("Produk/{idProduk}")
+//    public WebResponse<List<GambarProduk>> getGambarProdukByIdProduk(@PathVariable int idProduk) throws NotFoundException {
+//        return new WebResponse<>(
+//                HttpStatus.OK.value(),
+//                "Get Gambar Produk by ID",
+//                gambarProdukService.getGambarProdukByIdProduk(idProduk)
+//        );
+//    }
 }
