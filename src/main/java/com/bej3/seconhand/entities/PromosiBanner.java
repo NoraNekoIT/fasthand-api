@@ -15,6 +15,8 @@ public class PromosiBanner {
     @Column(name = "label_promosi")
     private String labelPromosi;
 
+
+
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Set<Produk> produkList;
 }
