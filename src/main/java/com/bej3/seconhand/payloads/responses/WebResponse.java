@@ -1,5 +1,4 @@
 package com.bej3.seconhand.payloads.responses;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
