@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
+
+
     @GetMapping("/all")
     @Operation(description = "akses halaman tanpa security")
     public String allAccess() {
@@ -23,7 +25,7 @@ public class TestController {
             security = @SecurityRequirement(
                     name = "bearerAuth"
             ))
-    @PreAuthorize("hasRole('BUYER')")
+    @PreAuthorize("hasRole('BUYER') ")
     public String buyerAccess() {
         return "Buyer Board.";
     }

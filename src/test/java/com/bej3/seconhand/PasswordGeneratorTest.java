@@ -13,11 +13,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Slf4j
 class PasswordGeneratorTest {
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private  PasswordEncoder passwordEncoder;
 
     @Test
     void generatePassword(){
-        log.info("{}",passwordEncoder.encode("admin"));
+        log.info("{}",passwordEncoder.encode("anton"));
     }
-
 }

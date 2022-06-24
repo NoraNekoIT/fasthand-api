@@ -1,9 +1,12 @@
 package com.bej3.seconhand.payloads.responses;
 
+import com.bej3.seconhand.entities.GambarProduk;
 import com.bej3.seconhand.entities.Kategori;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 import java.util.Set;
 
 @Getter

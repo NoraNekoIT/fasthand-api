@@ -20,9 +20,7 @@ public class KotaServiceImpl implements KotaService {
 
     @Override
     public Kota insertKota(KotaRequest kotaRequest) {
-        Kota kota = new Kota(
-                kotaRequest.getNamaKota()
-        );
+        Kota kota = new Kota(kotaRequest.getNamaKota());
         return kotaRepository.save(kota);
     }
 

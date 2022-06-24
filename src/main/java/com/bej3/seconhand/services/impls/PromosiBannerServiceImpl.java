@@ -26,8 +26,9 @@ public class PromosiBannerServiceImpl implements PromosiBannerService {
     public String uploadPromosiBanner(MultipartFile file, int idPromosi) throws IOException {
         try{
             PromosiBanner promosiBanner = new PromosiBanner(
-                    file.getOriginalFilename(),
-                    file.getBytes()
+                    file.getBytes(),
+                    file.getContentType(),
+                    ""
             );
             promosiBannerRepository.save(promosiBanner);
         }
@@ -41,8 +42,7 @@ public class PromosiBannerServiceImpl implements PromosiBannerService {
 
     @Override
     public PromosiBanner getPromosiBanner(int id) throws NotFoundException {
-        PromosiBanner promosiBanner = promosiBannerRepository.findById(id).orElseThrow(NotFoundException::new);
-        return promosiBanner;
+        return promosiBannerRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override

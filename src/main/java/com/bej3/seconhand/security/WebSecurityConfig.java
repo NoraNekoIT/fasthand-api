@@ -58,7 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/gambarProduk/**",
                         "/api/kategori/**",
                         "/api/kota/**",
-                        "/api/user/**").permitAll()
+                        "/api/user/**",
+                        "/api/produk/**",
+                        "/api/promosiBanner/**").permitAll()
                 .antMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(),

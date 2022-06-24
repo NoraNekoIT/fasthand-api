@@ -1,15 +1,16 @@
 package com.bej3.seconhand.payloads.responses;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
 @AllArgsConstructor
-
 public class GambarProdukLinkResponse {
     private String linkGambar;
+
+    public String getLinkGambar() {
+        return linkGambar;
+    }
 
     @Override
     public String toString() {

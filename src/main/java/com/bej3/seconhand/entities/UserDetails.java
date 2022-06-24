@@ -35,6 +35,9 @@ public class UserDetails implements Serializable {
     @Column(name = "gambar_user")
     private byte[] gambarUser;
 
+    @Column(name = "type_gambar_user")
+    private String typeGambarUser;
+
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user", nullable = true,unique = true)

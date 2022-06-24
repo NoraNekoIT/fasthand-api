@@ -35,8 +35,12 @@ public class PromosiBannerController {
     }
 
     @GetMapping("{idPromosiBanner}")
-    public ResponseEntity<?> getPromosiBanner(@PathVariable int idGambarProduk) throws NotFoundException {
-        PromosiBanner promosiBanner = promosiBannerService.getPromosiBanner(idGambarProduk);
-        return new ResponseEntity<>(promosiBanner, HttpStatus.ACCEPTED);
+    public ResponseEntity<byte[]> getPromosiBanner(@PathVariable("idPromosiBanner")
+                                            int idPromosiBanner) throws NotFoundException {
+        PromosiBanner promosiBanner = promosiBannerService.getPromosiBanner(idPromosiBanner);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.valueOf(promosiBanner.getTypeGambarBanner()))
+                .body(promosiBanner.getGambarBanner());
     }
 }

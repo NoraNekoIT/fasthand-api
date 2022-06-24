@@ -3,7 +3,6 @@ package com.bej3.seconhand.entities;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 
 @Getter
@@ -16,21 +15,25 @@ public class PromosiBanner {
     @Column(name = "id_promosi")
     private int idPromosi;
 
+    @Lob
     @Column(name = "gambar_banner")
     private byte[] gambarBanner;
+
+    @Column(name = "type_gambar")
+    private String typeGambarBanner;
 
     @Column(name = "label_promosi")
     private String labelPromosi;
 
-    public PromosiBanner(String originalFilename, byte[] bytes) {
-        this.labelPromosi = originalFilename;
-        this.gambarBanner = bytes;
+    public PromosiBanner(byte[] gambarBanner, String typeGambarBanner, String labelPromosi) {
+        this.gambarBanner = gambarBanner;
+        this.typeGambarBanner = typeGambarBanner;
+        this.labelPromosi = labelPromosi;
     }
 
     public PromosiBanner() {
 
     }
-
 
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Set<Produk> produkList;

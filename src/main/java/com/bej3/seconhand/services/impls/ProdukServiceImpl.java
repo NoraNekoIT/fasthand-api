@@ -40,8 +40,10 @@ public class ProdukServiceImpl implements ProdukService {
 
     @Override
     public Produk addProduk(ProdukAddRequest produkAddRequest) throws NotFoundException {
+        System.out.println(produkAddRequest.getIdPenjual());
         Users userPenjual = userRepository.
-                findById(produkAddRequest.getIdPenjual()).orElseThrow(NotFoundException::new);
+                findById(produkAddRequest.getIdPenjual()).
+                orElseThrow(NotFoundException::new);
         Kategori kategoriProduk = kategoriRepository.
                 findById(produkAddRequest.getIdKategori()).orElseThrow(NotFoundException::new);
         Produk produk = new Produk(
@@ -96,4 +98,5 @@ public class ProdukServiceImpl implements ProdukService {
                 ).map(String::valueOf).collect(Collectors.toSet())
         );
     }
+
 }
