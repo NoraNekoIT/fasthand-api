@@ -22,15 +22,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/daftar")
-    public WebResponse<Users> daftarUser(@RequestBody UserRequest userRequest){
-        Users user = userService.addUser(userRequest);
-        return new WebResponse<>(
-                HttpStatus.OK.value(),
-                "BERHASIL INSERT",
-                user
-        );
-    }
+//    @PostMapping("/daftar")
+//    public WebResponse<Users> daftarUser(@RequestBody UserRequest userRequest){
+//        Users user = userService.addUser(userRequest);
+//        return new WebResponse<>(
+//                HttpStatus.OK.value(),
+//                "BERHASIL INSERT",
+//                user
+//        );
+//    }
 
     @GetMapping("/{id}")
     public WebResponse<Users> getUserById(@PathVariable("id")  int id) throws NotFoundException {
@@ -51,14 +51,14 @@ public class UserController {
         );
     }
 
-    @PostMapping("/login")
-    public WebResponse<Users> loginDaftar(@RequestBody LoginRequest loginRequest) throws NotFoundException {
-       Users user = userService.loginUser(loginRequest);
-        return new WebResponse<>(
-                HttpStatus.OK.value(),
-                "Berhasil Login",
-                user
-        );
-    }
+//    @PostMapping("/login")
+//    public WebResponse<Users> loginDaftar(@RequestBody LoginRequest loginRequest) throws NotFoundException {
+//       Users user = userService.loginUser(loginRequest);
+//        return new WebResponse<>(
+//                HttpStatus.OK.value(),
+//                "Berhasil Login",
+//                user
+//        );
+//    }
 
 }

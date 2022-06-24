@@ -16,6 +16,7 @@ public class UserRequest {
 
     private String password;
 
-    @JsonIgnore
-    private boolean role;
+
+    //    @JsonIgnore
+    //    private boolean role;
 }
