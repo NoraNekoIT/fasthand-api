@@ -17,7 +17,7 @@ public class UserDetails implements Serializable {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(name = "id_user_details")
-    private int idUserDetails;
+    private Integer idUserDetails;
 
     @Column(name = "alamat")
     private String alamat;
@@ -34,6 +34,9 @@ public class UserDetails implements Serializable {
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "gambar_user")
     private byte[] gambarUser;
+
+    @Column(name = "type_gambar_user")
+    private String typeGambarUser;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)

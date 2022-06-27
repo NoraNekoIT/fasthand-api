@@ -1,5 +1,4 @@
 package com.bej3.seconhand.payloads.responses;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,10 +6,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class WebResponse <T> {
+public class WebResponse <M,T> {
     int code;
 
     String status;
 
-    T data;
+    M message;
+
+    T data ;
 }
