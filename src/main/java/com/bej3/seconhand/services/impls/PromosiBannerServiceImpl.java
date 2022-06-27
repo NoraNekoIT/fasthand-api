@@ -34,23 +34,30 @@ public class PromosiBannerServiceImpl implements PromosiBannerService {
         this.herokuUrlUtil = herokuUrlUtil;
     }
 
-//    @Override
-//    public String uploadPromosiBanner(MultipartFile file, int idPromosi) throws IOException {
-//        try{
-//            PromosiBanner promosiBanner = new PromosiBanner(
-//                    file.getBytes(),
-//                    file.getContentType(),
-//                    ""
-//            );
-//            promosiBannerRepository.save(promosiBanner);
-//        }
-//        catch (
-//                Exception e
-//        ){
-//            e.printStackTrace();
-//        }
-//        return "sukses upload gambar" + file.getOriginalFilename();
-//    }
+    @Override
+    public WebResponse<String,?>  uploadPromosiBanner(MultipartFile file,
+                                      String labelPromosi
+                                      ) throws IOException {
+        try{
+            PromosiBanner promosiBanner = new PromosiBanner(
+                    file.getBytes(),
+                    file.getContentType(),
+                    labelPromosi
+            );
+            promosiBannerRepository.save(promosiBanner);
+        }
+        catch (
+                Exception e
+        ){
+            e.printStackTrace();
+        }
+        return new WebResponse<>(
+                HttpStatus.OK.value(),
+                "OK",
+                "Berhasil Upload Promosi Banner",
+                ""
+        );
+    }
 
     @Override
     public PromosiBanner getPromosiBanner(int id) throws NotFoundException {
