@@ -25,15 +25,11 @@ public class PromosiBannerController {
         this.promosiBannerService = promosiBannerService;
     }
 
-//    @RequestMapping(value = "/upload/{idPromosi}", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-//    public WebResponse<String> uploadPromosiBanner(@RequestParam(value = "upload") MultipartFile file, @PathVariable("idPromosi") int idPromosi) throws IOException {
-//        promosiBannerService.uploadPromosiBanner(file, idPromosi);
-//        return new WebResponse<>(
-//                HttpStatus.OK.value(),
-//                "Berhasil Upload Promosi Banner",
-//                file.getOriginalFilename()
-//        );
-//    }
+    @RequestMapping(value = "/upload", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public WebResponse<String,?> uploadPromosiBanner(@RequestParam(value = "upload") MultipartFile file,
+                                                   @RequestParam(value = "labelPromosi") String labelPromosi) throws IOException {
+        return promosiBannerService.uploadPromosiBanner(file, labelPromosi);
+    }
 
     @GetMapping("{idPromosiBanner}/gambar")
     @Operation(description = "untuk mendaptkan gambar promosi banner berdasarkan id promosi banner")
