@@ -27,18 +27,23 @@ public class GambarProduk {
     @Column(name = "gambar_produk")
     private byte[] gambarProduk;
 
-    public GambarProduk(String namaGambarProduk, String type, byte[] gambarProduk) {
-        this.namaGambarProduk = namaGambarProduk;
-        this.type = type;
-        this.gambarProduk = gambarProduk;
-    }
+
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_produk")
     private Produk produk;
 
+    public GambarProduk(String namaGambarProduk, String type, byte[] gambarProduk, Produk produk) {
+        this.namaGambarProduk = namaGambarProduk;
+        this.type = type;
+        this.gambarProduk = gambarProduk;
+        this.produk = produk;
+    }
+
     public GambarProduk() {
 
     }
+
+
 }

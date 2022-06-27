@@ -33,11 +33,16 @@ public class GambarProdukServiceImpl implements GambarProdukService{
     }
 
     @Override
-    public void uploadGambarProduk(MultipartFile file, int idProduk) throws IOException {
+    public void uploadGambarProduk(MultipartFile file, int idProduk) throws IOException, NotFoundException {
+        Produk produk = produkRepository.findById(idProduk).orElseThrow(
+                ()->new NotFoundException("id produk yang barusan dibuat tidak ada")
+        );
         GambarProduk gambarProduk = new GambarProduk(
                 file.getOriginalFilename(),
                 file.getContentType(),
-                file.getBytes());
+                file.getBytes(),
+                produk)
+        ;
         gambarProdukRepository.save(gambarProduk);
     }
 
