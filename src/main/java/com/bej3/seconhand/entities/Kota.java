@@ -14,7 +14,7 @@ public class Kota implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_kota")
-    private int idKota;
+    private Integer idKota;
 
     @Column(name = "nama_kota",unique = true)
     private String namaKota;

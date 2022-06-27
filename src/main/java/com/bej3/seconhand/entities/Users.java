@@ -1,6 +1,7 @@
 package com.bej3.seconhand.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class Users implements Serializable
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
-    private int idUser;
+    private Integer idUser;
 
     @Column(name = "name")
     private String name;

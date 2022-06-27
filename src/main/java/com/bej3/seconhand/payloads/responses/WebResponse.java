@@ -6,10 +6,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class WebResponse <T> {
+public class WebResponse <M,T> {
     int code;
 
     String status;
 
-    T data;
+    M message;
+
+    T data ;
 }

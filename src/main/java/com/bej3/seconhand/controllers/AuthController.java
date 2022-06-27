@@ -1,7 +1,9 @@
 package com.bej3.seconhand.controllers;
-import com.bej3.seconhand.payloads.requests.LoginRequest;
-import com.bej3.seconhand.payloads.requests.SignupRequest;
+import com.bej3.seconhand.payloads.requests.UserLoginRequest;
+import com.bej3.seconhand.payloads.requests.UserSignupRequest;
+import com.bej3.seconhand.payloads.responses.WebResponse;
 import com.bej3.seconhand.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,15 +21,18 @@ public class AuthController {
     @Autowired
     public AuthController(UserService userService) {
         this.userService = userService;
+
     }
 
+    @Operation(description = "login user")
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        return userService.authenticateUser(loginRequest);
+    public WebResponse<String,?> authenticateUser(@Valid @RequestBody UserLoginRequest userLoginRequest) {
+        return userService.authenticateUser(userLoginRequest);
     }
 
+    @Operation(description = "daftar user")
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-       return userService.registerUser(signUpRequest);
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserSignupRequest signUpRequestUser) {
+       return userService.registerUser(signUpRequestUser);
     }
 }

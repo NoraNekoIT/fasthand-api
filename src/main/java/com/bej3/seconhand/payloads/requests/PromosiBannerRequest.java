@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PromosiBannerRequest {
-    private int idPromosi;
+    private Integer idPromosi;
 
     private byte[] gambarBanner;
 

@@ -7,7 +7,7 @@ import com.bej3.seconhand.payloads.responses.GambarProdukLinkResponse;
 import com.bej3.seconhand.repositories.GambarProdukRepository;
 import com.bej3.seconhand.repositories.ProdukRepository;
 import com.bej3.seconhand.services.GambarProdukService;
-import com.bej3.seconhand.util.HerokuUrlUtil;
+import com.bej3.seconhand.utils.HerokuUrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,19 +33,17 @@ public class GambarProdukServiceImpl implements GambarProdukService{
     }
 
     @Override
-    public String uploadGambarProduk(MultipartFile file, int idProduk) throws IOException {
+    public void uploadGambarProduk(MultipartFile file, int idProduk) throws IOException {
         GambarProduk gambarProduk = new GambarProduk(
                 file.getOriginalFilename(),
                 file.getContentType(),
-                file.getBytes()
-        );
+                file.getBytes());
         gambarProdukRepository.save(gambarProduk);
-        return "sukses upload gambar " + file.getOriginalFilename();
     }
 
     @Override
     public GambarProduk getGambarProduk(int id) throws NotFoundException {
-        return gambarProdukRepository.findById(id).orElseThrow(NotFoundException::new);
+        return gambarProdukRepository.findById(id).orElseThrow(()->new NotFoundException("gambar tidak ditemukan"));
     }
 
     @Override
@@ -56,7 +54,7 @@ public class GambarProdukServiceImpl implements GambarProdukService{
 
     private GambarProdukLinkResponse convertGambarProdukToLink(GambarProduk gambarProduk){
         return new GambarProdukLinkResponse(
-                herokuUrlUtil.getUrlApi() + "api/gambarProduk/"+gambarProduk.getIdGambarProduk()
+                herokuUrlUtil.getUrlApi()+"api/gambarProduk/"+gambarProduk.getIdGambarProduk()
         );
     }
 

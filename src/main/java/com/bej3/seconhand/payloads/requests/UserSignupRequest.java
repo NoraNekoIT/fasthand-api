@@ -7,21 +7,22 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignupRequest {
+public class UserSignupRequest {
 
-    @NotBlank
+    @NotBlank(message = "name tidak boleh kosong")
     private String name;
 
-    @Email
-    @NotBlank
+    @Email(message = "format email salah")
+    @NotBlank(message = "email tidak boleh kosong")
     private String email;
 
-
-    @NotBlank
+    @Size(min = 6, message = "password harus memiliki 6 karakter")
+    @NotBlank(message = "password tidak boleh kosong")
     private String password;
 }

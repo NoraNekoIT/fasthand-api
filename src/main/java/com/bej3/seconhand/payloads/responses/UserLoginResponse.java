@@ -6,14 +6,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class JwtResponse {
-
-    private int idUser;
+public class UserLoginResponse {
+    private Integer idUser;
     private String email;
     private String type = "Bearer";
     private String accessToken;
 
-    public JwtResponse(String token, int id, String email) {
+    public UserLoginResponse(String token, int id, String email) {
         this.accessToken = token;
         this.idUser = id;
         this.email = email;

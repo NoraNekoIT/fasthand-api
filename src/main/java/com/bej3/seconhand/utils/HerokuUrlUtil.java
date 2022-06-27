@@ -1,4 +1,4 @@
-package com.bej3.seconhand.util;
+package com.bej3.seconhand.utils;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

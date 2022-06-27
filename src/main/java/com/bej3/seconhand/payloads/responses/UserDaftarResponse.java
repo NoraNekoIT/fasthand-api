@@ -7,9 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserResponse {
+public class UserDaftarResponse {
     private Integer idUser;
     private String name;
     private String email;
-    private UserDetailResponse userDetails;
 }

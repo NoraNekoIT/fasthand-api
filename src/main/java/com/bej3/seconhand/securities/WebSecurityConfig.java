@@ -1,7 +1,7 @@
-package com.bej3.seconhand.security;
+package com.bej3.seconhand.securities;
 
-import com.bej3.seconhand.security.jwt.AuthEntryPointJwt;
-import com.bej3.seconhand.security.jwt.AuthTokenFilter;
+import com.bej3.seconhand.securities.jwt.AuthEntryPointJwt;
+import com.bej3.seconhand.securities.jwt.AuthTokenFilter;
 import com.bej3.seconhand.services.impls.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

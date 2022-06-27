@@ -6,12 +6,12 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+
 @SpringBootApplication
 @EntityScan(basePackages = {"com/bej3/seconhand/entities"})
 @OpenAPIDefinition(
@@ -22,24 +22,25 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
                         name = "API SUPPORT",
                         url = "",
                         email = ""
-
                 ),
                 license = @License(
                         name = "",
                         url = ""
                 ),
                 termsOfService = "")
-        ,servers = {
-                @Server(
-                        url = "https://staging-fasthand-api.herokuapp.com/",
-                        description = "The Staging API Server"),
-                @Server(
-                        url = "https://production-fasthand-api.herokuapp.com/",
-                        description = "The Production API Server"),
-                @Server(
-                        url = "http://localhost:8089/",
-                        description = "The Development Lokal API Server"
-                ) }
+        , servers = {
+        @Server(
+                url = "http://localhost:8089/",
+                description = "The Development Lokal API Server"
+        ),
+        @Server(
+                url = "https://staging-fasthand-api.herokuapp.com/",
+                description = "The Staging API Server"),
+        @Server(
+                url = "https://production-fasthand-api.herokuapp.com/",
+                description = "The Production API Server")
+
+        }
 //        ,security = @SecurityRequirement(
 //                name = "bearerAuth"
 //        )

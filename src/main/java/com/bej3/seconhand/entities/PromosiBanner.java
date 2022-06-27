@@ -13,7 +13,7 @@ public class PromosiBanner {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(name = "id_promosi")
-    private int idPromosi;
+    private Integer idPromosi;
 
     @Lob
     @Column(name = "gambar_banner")

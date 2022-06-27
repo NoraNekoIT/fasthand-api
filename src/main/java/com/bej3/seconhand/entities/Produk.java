@@ -1,6 +1,7 @@
 package com.bej3.seconhand.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +20,7 @@ public class Produk {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_produk")
-    private int idProduk;
+    private Integer idProduk;
 
     @Column(name = "status_terhapus",columnDefinition = "boolean default false")
     private boolean statusTerhapus;
@@ -63,10 +64,8 @@ public class Produk {
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Set<Transaksi> transaksiList ;
 
-    public Produk(boolean statusTerhapus, String namaProduk, boolean statusTerjual, String deskripsiProduk, double hargaProduk, double potonganDiskon) {
-        this.statusTerhapus = statusTerhapus;
+    public Produk(String namaProduk, String deskripsiProduk, double hargaProduk, double potonganDiskon) {
         this.namaProduk = namaProduk;
-        this.statusTerjual = statusTerjual;
         this.deskripsiProduk = deskripsiProduk;
         this.hargaProduk = hargaProduk;
         this.potonganDiskon = potonganDiskon;

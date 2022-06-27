@@ -1,4 +1,4 @@
-package com.bej3.seconhand.security.jwt;
+package com.bej3.seconhand.securities.jwt;
 
 import com.bej3.seconhand.services.impls.UserDetailsServiceImpl;
 import org.slf4j.Logger;

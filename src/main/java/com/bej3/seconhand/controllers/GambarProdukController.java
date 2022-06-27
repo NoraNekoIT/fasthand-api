@@ -3,6 +3,7 @@ import com.bej3.seconhand.entities.GambarProduk;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.responses.WebResponse;
 import com.bej3.seconhand.services.GambarProdukService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,18 +26,19 @@ public class GambarProdukController {
     }
 
 
-    @RequestMapping(value = "/upload/{idProduk}",method = RequestMethod.POST,consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public WebResponse<String> uploadGambarProduk(@RequestParam(value = "upload")MultipartFile file,
-                                                  @PathVariable("idProduk")  int idProduk ) throws IOException{
-        gambarProdukService.uploadGambarProduk(file, idProduk);
-        return new WebResponse<String>(
-                HttpStatus.OK.value(),
-                "Berhasil Upload Gambar Produk",
-                file.getOriginalFilename().toString()
-        );
-    }
+//    @RequestMapping(value = "/upload/{idProduk}",method = RequestMethod.POST,consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public WebResponse<String> uploadGambarProduk(@RequestParam(value = "upload")MultipartFile file,
+//                                                  @PathVariable("idProduk")  int idProduk ) throws IOException{
+//        gambarProdukService.uploadGambarProduk(file, idProduk);
+//        return new WebResponse<String>(
+//                HttpStatus.OK.value(),
+//                "Berhasil Upload Gambar Produk",
+//                file.getOriginalFilename().toString()
+//        );
+//    }
 
     @GetMapping("{idGambarProduk}")
+    @Operation(description = "untuk mendapatkan gambar melalui link id gambar")
     public ResponseEntity<byte[]> getGambarProduk(@PathVariable int idGambarProduk) throws NotFoundException {
         GambarProduk gambarProduk = gambarProdukService.getGambarProduk(idGambarProduk);
         return ResponseEntity
@@ -44,6 +46,7 @@ public class GambarProdukController {
                 .contentType(MediaType.valueOf(gambarProduk.getType()))
                 .body(gambarProduk.getGambarProduk());
     }
+
 //    @GetMapping("Produk/{idProduk}")
 //    public WebResponse<List<GambarProduk>> getGambarProdukByIdProduk(@PathVariable int idProduk) throws NotFoundException {
 //        return new WebResponse<>(

@@ -1,4 +1,5 @@
 package com.bej3.seconhand.payloads.requests;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,9 +8,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+
 @Getter
 @Setter
-public class ProdukAddRequest {
+public class ProdukUpdateRequest {
+    @NotNull(message = "id produk tidak boleh null")
+    private Integer idProduk;
     @NotEmpty(message = "nama produk tidak boleh empty")
     @NotBlank(message = "nama produk tidak boleh blank")
     private String namaProduk;
@@ -22,7 +26,6 @@ public class ProdukAddRequest {
     private Integer idKategori;
     @NotNull(message = "idPenjual tidak boleh null")
     private Integer idPenjual;
-    @NotNull(message = "isi gambar minimal 1 gambar max 5")
-    private List<MultipartFile> file;
-    //    private double potonganDiskon;
+//    @NotNull(message = "isi gambar minimal 1 gambar max 5")
+//    private List<MultipartFile> file;
 }

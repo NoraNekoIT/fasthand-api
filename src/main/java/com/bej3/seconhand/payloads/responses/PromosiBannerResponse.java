@@ -7,9 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserResponse {
-    private Integer idUser;
-    private String name;
-    private String email;
-    private UserDetailResponse userDetails;
+public class PromosiBannerResponse {
+    private Integer idPromosi;
+    private String labelPromosi;
+    private String linkGambar;
 }

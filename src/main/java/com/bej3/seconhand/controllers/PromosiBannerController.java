@@ -4,6 +4,7 @@ import com.bej3.seconhand.entities.PromosiBanner;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.responses.WebResponse;
 import com.bej3.seconhand.services.PromosiBannerService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,23 +25,30 @@ public class PromosiBannerController {
         this.promosiBannerService = promosiBannerService;
     }
 
-    @RequestMapping(value = "/upload/{idPromosi}", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public WebResponse<String> uploadPromosiBanner(@RequestParam(value = "upload") MultipartFile file, @PathVariable("idPromosi") int idPromosi) throws IOException {
-        promosiBannerService.uploadPromosiBanner(file, idPromosi);
-        return new WebResponse<>(
-                HttpStatus.OK.value(),
-                "Berhasil Upload Promosi Banner",
-                file.getOriginalFilename()
-        );
-    }
+//    @RequestMapping(value = "/upload/{idPromosi}", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public WebResponse<String> uploadPromosiBanner(@RequestParam(value = "upload") MultipartFile file, @PathVariable("idPromosi") int idPromosi) throws IOException {
+//        promosiBannerService.uploadPromosiBanner(file, idPromosi);
+//        return new WebResponse<>(
+//                HttpStatus.OK.value(),
+//                "Berhasil Upload Promosi Banner",
+//                file.getOriginalFilename()
+//        );
+//    }
 
-    @GetMapping("{idPromosiBanner}")
+    @GetMapping("{idPromosiBanner}/gambar")
+    @Operation(description = "untuk mendaptkan gambar promosi banner berdasarkan id promosi banner")
     public ResponseEntity<byte[]> getPromosiBanner(@PathVariable("idPromosiBanner")
                                             int idPromosiBanner) throws NotFoundException {
+
         PromosiBanner promosiBanner = promosiBannerService.getPromosiBanner(idPromosiBanner);
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.valueOf(promosiBanner.getTypeGambarBanner()))
                 .body(promosiBanner.getGambarBanner());
+    }
+
+    @GetMapping("/all")
+    public WebResponse<String, ?> getAll() {
+        return promosiBannerService.getAllPromosiBanner();
     }
 }
