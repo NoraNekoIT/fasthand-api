@@ -16,7 +16,13 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @EntityScan(basePackages = {"com/bej3/seconhand/entities"})
 @OpenAPIDefinition(
         info = @Info(title = "API Fasthand",
-                description = "API FASTHAND API BY BEJ-3 KELOMPOK 2 ",
+                description = "# API FASTHAND API BY BEJ-3 KELOMPOK 2 , \n" +
+                        "## INGAT PILIH DULU SERVERS berdasarkan domain karena nanti kalau gak sesuai kena cors \n" +
+                        "## Ada 3 server development, staging, production. \n" +
+                        "### Development -> buat bikin api dari backend , \n" +
+                        "### Staging -> digunakan untuk coba/test backend dan fronted jika frontend setuju baru naik ke Production," +
+                        "hal ini bertujuan untuk mendapatkan feedback dari frontend \n" +
+                        "### Production -> api yang siap di integrasikan di frontend \n",
                 version = "v1.0.0",
                 contact = @Contact(
                         name = "API SUPPORT",
