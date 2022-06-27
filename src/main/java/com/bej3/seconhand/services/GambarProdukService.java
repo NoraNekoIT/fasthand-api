@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.stream.Stream;
 
 public interface GambarProdukService {
-    void uploadGambarProduk(MultipartFile file, int idProduk) throws IOException;
+    void uploadGambarProduk(MultipartFile file, int idProduk) throws IOException, NotFoundException;
     //    GambarProduk getInfoImageByName(String namaGambar);
     GambarProduk getGambarProduk(int id) throws NotFoundException;
     Stream<GambarProdukLinkResponse> getGambarProdukByIdProduk(int idProduk);
