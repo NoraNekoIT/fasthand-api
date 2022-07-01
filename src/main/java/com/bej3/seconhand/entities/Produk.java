@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -58,9 +59,7 @@ public class Produk {
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Set<GambarProduk> gambarProdukList;
 //
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private Set<Wishlist> wishlists ;
-//
+
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Set<Transaksi> transaksiList ;
 

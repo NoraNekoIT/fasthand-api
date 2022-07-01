@@ -176,6 +176,11 @@ public class ProdukServiceImpl implements ProdukService {
         );
     }
 
+    @Override
+    public ResponseEntity<?> getProdukByWishlist(Integer idPenjual) throws NotFoundException {
+        return null;
+    }
+
 //    @Override
 //    public WebResponse<String,?> getListProdukByKategori(int idKategori) throws NotFoundException {
 //        Kategori kategori = kategoriRepository.findById(idKategori).orElseThrow(NotFoundException::new);
