@@ -35,4 +35,10 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserSignupRequest signUpRequestUser) {
        return userService.registerUser(signUpRequestUser);
     }
+
+    @Operation(description = "ganti password")
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordRequest PasswordRequestChange){
+        return userService.changePasswordUser(PasswordRequestChange);
+    }
 }

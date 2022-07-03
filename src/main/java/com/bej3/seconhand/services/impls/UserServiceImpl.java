@@ -2,14 +2,12 @@ package com.bej3.seconhand.services.impls;
 
 import com.bej3.seconhand.entities.*;
 import com.bej3.seconhand.errors.NotFoundException;
+import com.bej3.seconhand.payloads.requests.ChangePasswordRequest;
 import com.bej3.seconhand.payloads.requests.UserLoginRequest;
 import com.bej3.seconhand.payloads.requests.UserSignupRequest;
 import com.bej3.seconhand.payloads.requests.UserUpdateRequest;
 import com.bej3.seconhand.payloads.responses.*;
-import com.bej3.seconhand.repositories.KotaRepository;
-import com.bej3.seconhand.repositories.RoleRepository;
-import com.bej3.seconhand.repositories.UserDetailRepository;
-import com.bej3.seconhand.repositories.UserRepository;
+import com.bej3.seconhand.repositories.*;
 import com.bej3.seconhand.securities.jwt.JwtUtils;
 import com.bej3.seconhand.services.UserService;
 import com.bej3.seconhand.utils.HerokuUrlUtil;
@@ -34,6 +32,7 @@ public class UserServiceImpl implements UserService {
     private final UserDetailRepository userDetailRepository;
     private final KotaRepository kotaRepository;
     private final RoleRepository roleRepository;
+    private final ChangeRepository changeRepository;
     private final HerokuUrlUtil herokuUrlUtil;
     @Autowired
     AuthenticationManager authenticationManager;
@@ -199,6 +198,16 @@ public class UserServiceImpl implements UserService {
                         userDetails.getNoHp(),
                         convertGambarUserToLinkGambarUser(userDetails)
                 ));
+    }
+    @Override
+    public <string> WebResponse<String, ?> changePasswordUser(ChangePasswordRequest changePasswordRequest) throws NotFoundException {
+        Users users = changeRepository.findById(changePasswordRequest.getPassword()).
+                orElseThrow(() -> new NotFoundException("password Not Found"));
+        string passwordlama;
+        if (changePasswordRequest.getPassword() != null){
+             passwordlama =encoder.encode(changePasswordRequest.getPassword());
+             if (passwordlama == )
+        }
     }
 
     @Override
