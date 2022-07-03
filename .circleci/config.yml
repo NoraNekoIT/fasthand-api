@@ -15,6 +15,5 @@ jobs:
           command: mvn test
 
 workflows:
-  sample:
     jobs:
       - build-and-test
