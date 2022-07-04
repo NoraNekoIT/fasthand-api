@@ -2,6 +2,7 @@ package com.bej3.seconhand.repositories;
 
 import com.bej3.seconhand.entities.Kategori;
 import com.bej3.seconhand.entities.Produk;
+import com.bej3.seconhand.entities.ProdukTransaksiJoin;
 import com.bej3.seconhand.entities.Users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,7 +24,7 @@ public interface ProdukRepository extends JpaRepository<Produk, Integer> {
     @Query(value = "SELECT p FROM produk p WHERE p.kategori =:kategori")
     List<Produk> findAllProdukByKategori(@Param("kategori") Kategori kategori);
 
-
     @Query(value = "SELECT p FROM produk p WHERE p.user =:penjual")
     List<Produk> findAllProdukByPenjual(@Param("penjual") Users penjual);
+
 }
