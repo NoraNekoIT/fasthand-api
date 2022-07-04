@@ -11,6 +11,7 @@ import com.bej3.seconhand.repositories.*;
 import com.bej3.seconhand.securities.jwt.JwtUtils;
 import com.bej3.seconhand.services.UserService;
 import com.bej3.seconhand.utils.HerokuUrlUtil;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +31,10 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserDetailRepository userDetailRepository;
+
+    private final ChangeRepository changeRepository;
     private final KotaRepository kotaRepository;
     private final RoleRepository roleRepository;
-    private final ChangeRepository changeRepository;
     private final HerokuUrlUtil herokuUrlUtil;
     @Autowired
     AuthenticationManager authenticationManager;
@@ -46,12 +48,14 @@ public class UserServiceImpl implements UserService {
                            UserDetailRepository userDetailRepository,
                            KotaRepository kotaRepository,
                            RoleRepository roleRepository,
+                           ChangeRepository changeRepository,
                            HerokuUrlUtil herokuUrlUtil
     ) {
         this.userRepository = userRepository;
         this.userDetailRepository = userDetailRepository;
         this.kotaRepository = kotaRepository;
         this.roleRepository = roleRepository;
+        this.changeRepository = changeRepository;
         this.herokuUrlUtil = herokuUrlUtil;
     }
 
@@ -199,15 +203,42 @@ public class UserServiceImpl implements UserService {
                         convertGambarUserToLinkGambarUser(userDetails)
                 ));
     }
+
+
     @Override
-    public <string> WebResponse<String, ?> changePasswordUser(ChangePasswordRequest changePasswordRequest) throws NotFoundException {
-        Users users = changeRepository.findById(changePasswordRequest.getPassword()).
-                orElseThrow(() -> new NotFoundException("password Not Found"));
-        string passwordlama;
-        if (changePasswordRequest.getPassword() != null){
-             passwordlama =encoder.encode(changePasswordRequest.getPassword());
-             if (passwordlama == )
-        }
+    public ResponseEntity<?> ChangePasswordUser(ChangePasswordRequest changePasswordRequest) throws NotFoundException {
+        Users users = changeRepository.findById(changePasswordRequest.getIdUser()).
+                orElseThrow(() -> new NotFoundException("Password Not Found"));
+
+        if (encoder.matches(changePasswordRequest.getOldPassword(), users.getPassword()) == false){
+            return ResponseEntity.badRequest().body(
+                    new WebResponse<String, String>(
+                            HttpStatus.BAD_REQUEST.value(),
+                            "BAD REQUEST",
+                            "Password lama tidak sama,silakan mengisi ulang password lama yang benar",
+                            ""
+            ));
+            }
+            users.setPassword(encoder.encode(changePasswordRequest.getNewPassword()));
+
+//            users.setPassword(changePasswordRequest.getPassword());
+//            if (PasswordBaruPertama.equalsIgnoreCase(PasswordBaruKedua)){
+                changeRepository.save(users);
+//            }else {
+//                NotFoundException ("password tidak sama");
+//            }
+//        }else {
+//
+
+
+        return ResponseEntity.ok().body(
+                new WebResponse<String, String>(
+                        HttpStatus.OK.value(),
+                        "OK",
+                        "Berhasil ganti password",
+                        ""
+                ));
+
     }
 
     @Override

@@ -36,9 +36,4 @@ public class AuthController {
        return userService.registerUser(signUpRequestUser);
     }
 
-    @Operation(description = "ganti password")
-    @PostMapping("/change-password")
-    public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordRequest PasswordRequestChange){
-        return userService.changePasswordUser(PasswordRequestChange);
-    }
 }
