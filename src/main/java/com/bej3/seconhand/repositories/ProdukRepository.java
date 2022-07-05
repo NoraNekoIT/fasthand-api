@@ -26,4 +26,15 @@ public interface ProdukRepository extends JpaRepository<Produk, Integer> {
     @Query(value = "SELECT p FROM produk p WHERE p.user =:penjual")
     List<Produk> findAllProdukByPenjual(@Param("penjual") Users penjual);
 
+    //wishlist produk join transaksi dimana id produk = id produk, id penjual apa
+//    @Query("select new com.bej3.seconhand.entities.ProdukTransaksiJoin(p.idProduk,p.statusTerhapus,p.namaProduk,p.statusTerjual,p.deskripsiProduk," +
+//            "p.hargaProduk,p.potonganDiskon,p.kategori, t.idTransaksi,p.user.idUser,t.hargaTawaran,t.statusTawaran, t.statusTransaksi )" +
+//            " from produk p, transaksi t where t.produk.idProduk = p.idProduk and p.user.idUser =:penjual")
+//    List<ProdukTransaksiJoin> findAllProdukByWishlist(@Param("penjual") Users penjual);
+
+    //transaksi produk join transaksi dimana id produk = id produk dengan status penjualan = true
+//    @Query("select new com.bej3.seconhand.entities.ProdukTransaksiJoin(p.idProduk,p.statusTerhapus,p.namaProduk,p.statusTerjual,p.deskripsiProduk," +
+//            "p.hargaProduk,p.potonganDiskon,p.kategori, t.idTransaksi,p.user.idUser,t.hargaTawaran,t.statusTawaran, t.statusTransaksi )" +
+//            " from produk p, transaksi t where t.produk.idProduk = p.idProduk and p.user.idUser =:penjual and t.statusTransaksi=true ")
+//    List<ProdukTransaksiJoin> findAllProdukByTransaksi(@Param("penjual") Users penjual);
 }

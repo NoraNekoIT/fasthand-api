@@ -206,6 +206,7 @@ public class UserServiceImpl implements UserService {
         return userDetailRepository.findById(idUserDetail).orElseThrow(
                 () -> new NotFoundException("id detail user tidak ada"));
     }
+
     private UserGambarLinkResponse convertGambarUserToLinkGambarUser(UserDetails userDetails){
         if (userDetails.getGambarUser() != null ) {
             return new UserGambarLinkResponse(
