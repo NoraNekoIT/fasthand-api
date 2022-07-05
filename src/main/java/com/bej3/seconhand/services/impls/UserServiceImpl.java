@@ -11,7 +11,6 @@ import com.bej3.seconhand.repositories.*;
 import com.bej3.seconhand.securities.jwt.JwtUtils;
 import com.bej3.seconhand.services.UserService;
 import com.bej3.seconhand.utils.HerokuUrlUtil;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +30,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserDetailRepository userDetailRepository;
-
-    private final ChangeRepository changeRepository;
     private final KotaRepository kotaRepository;
     private final RoleRepository roleRepository;
     private final HerokuUrlUtil herokuUrlUtil;
@@ -48,14 +45,12 @@ public class UserServiceImpl implements UserService {
                            UserDetailRepository userDetailRepository,
                            KotaRepository kotaRepository,
                            RoleRepository roleRepository,
-                           ChangeRepository changeRepository,
                            HerokuUrlUtil herokuUrlUtil
     ) {
         this.userRepository = userRepository;
         this.userDetailRepository = userDetailRepository;
         this.kotaRepository = kotaRepository;
         this.roleRepository = roleRepository;
-        this.changeRepository = changeRepository;
         this.herokuUrlUtil = herokuUrlUtil;
     }
 
@@ -207,7 +202,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> ChangePasswordUser(ChangePasswordRequest changePasswordRequest) throws NotFoundException {
-        Users users = changeRepository.findById(changePasswordRequest.getIdUser()).
+        Users users = userRepository.findById(changePasswordRequest.getIdUser()).
                 orElseThrow(() -> new NotFoundException("Password Not Found"));
 
         if (encoder.matches(changePasswordRequest.getOldPassword(), users.getPassword()) == false){
@@ -223,7 +218,7 @@ public class UserServiceImpl implements UserService {
 
 //            users.setPassword(changePasswordRequest.getPassword());
 //            if (PasswordBaruPertama.equalsIgnoreCase(PasswordBaruKedua)){
-                changeRepository.save(users);
+                userRepository.save(users);
 //            }else {
 //                NotFoundException ("password tidak sama");
 //            }
