@@ -2,14 +2,12 @@ package com.bej3.seconhand.services.impls;
 
 import com.bej3.seconhand.entities.*;
 import com.bej3.seconhand.errors.NotFoundException;
+import com.bej3.seconhand.payloads.requests.ChangePasswordRequest;
 import com.bej3.seconhand.payloads.requests.UserLoginRequest;
 import com.bej3.seconhand.payloads.requests.UserSignupRequest;
 import com.bej3.seconhand.payloads.requests.UserUpdateRequest;
 import com.bej3.seconhand.payloads.responses.*;
-import com.bej3.seconhand.repositories.KotaRepository;
-import com.bej3.seconhand.repositories.RoleRepository;
-import com.bej3.seconhand.repositories.UserDetailRepository;
-import com.bej3.seconhand.repositories.UserRepository;
+import com.bej3.seconhand.repositories.*;
 import com.bej3.seconhand.securities.jwt.JwtUtils;
 import com.bej3.seconhand.services.UserService;
 import com.bej3.seconhand.utils.HerokuUrlUtil;
@@ -199,6 +197,43 @@ public class UserServiceImpl implements UserService {
                         userDetails.getNoHp(),
                         convertGambarUserToLinkGambarUser(userDetails)
                 ));
+    }
+
+
+    @Override
+    public ResponseEntity<?> ChangePasswordUser(ChangePasswordRequest changePasswordRequest) throws NotFoundException {
+        Users users = userRepository.findById(changePasswordRequest.getIdUser()).
+                orElseThrow(() -> new NotFoundException("Password Not Found"));
+
+        if (encoder.matches(changePasswordRequest.getOldPassword(), users.getPassword()) == false){
+            return ResponseEntity.badRequest().body(
+                    new WebResponse<String, String>(
+                            HttpStatus.BAD_REQUEST.value(),
+                            "BAD REQUEST",
+                            "Password lama tidak sama,silakan mengisi ulang password lama yang benar",
+                            ""
+            ));
+            }
+            users.setPassword(encoder.encode(changePasswordRequest.getNewPassword()));
+
+//            users.setPassword(changePasswordRequest.getPassword());
+//            if (PasswordBaruPertama.equalsIgnoreCase(PasswordBaruKedua)){
+                userRepository.save(users);
+//            }else {
+//                NotFoundException ("password tidak sama");
+//            }
+//        }else {
+//
+
+
+        return ResponseEntity.ok().body(
+                new WebResponse<String, String>(
+                        HttpStatus.OK.value(),
+                        "OK",
+                        "Berhasil ganti password",
+                        ""
+                ));
+
     }
 
     @Override

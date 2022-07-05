@@ -3,6 +3,7 @@ package com.bej3.seconhand.controllers;
 import com.bej3.seconhand.entities.GambarProduk;
 import com.bej3.seconhand.entities.UserDetails;
 import com.bej3.seconhand.errors.NotFoundException;
+import com.bej3.seconhand.payloads.requests.ChangePasswordRequest;
 import com.bej3.seconhand.payloads.requests.UserUpdateRequest;
 import com.bej3.seconhand.payloads.responses.WebResponse;
 import com.bej3.seconhand.services.UserService;
@@ -42,10 +43,10 @@ public class UserController {
 
     @GetMapping("/{idUser}/detail")
     @PreAuthorize("hasRole('BUYER')or hasRole('SELLER')")
-    @Operation(description = "untuk mendapatkan detail user",security = @SecurityRequirement(
+    @Operation(description = "untuk mendapatkan detail user", security = @SecurityRequirement(
             name = "bearerAuth"
     ))
-    public WebResponse<String,?> getUserById(@PathVariable("idUser")  int id) throws NotFoundException {
+    public WebResponse<String, ?> getUserById(@PathVariable("idUser") int id) throws NotFoundException {
         return userService.getUserById(id);
 
     }
@@ -54,8 +55,8 @@ public class UserController {
             method = RequestMethod.PUT,
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(description = "untuk update user", security = @SecurityRequirement(
-                    name = "bearerAuth"
-            ))
+            name = "bearerAuth"
+    ))
     @PreAuthorize("hasRole('BUYER')or hasRole('SELLER')")
     public WebResponse<String, ?> updateUserDetail(@Valid @ModelAttribute UserUpdateRequest updateUserRequest)
             throws NotFoundException, IOException {
@@ -72,6 +73,16 @@ public class UserController {
                 .body(userDetails.getGambarUser());
     }
 
+    @Operation(description = "untuk mengganti password", security = @SecurityRequirement(
+            name = "bearerAuth"
+    ))
+    @RequestMapping(value = "/change-password",
+            method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('BUYER')or hasRole('SELLER')")
+    public ResponseEntity<?> ChangePasswordUser(@Valid @RequestBody ChangePasswordRequest changePasswordRequest)
+            throws NotFoundException, IOException {
+        return userService.ChangePasswordUser(changePasswordRequest);
+    }
 //    @PostMapping("/login")
 //    public WebResponse<Users> loginDaftar(@RequestBody LoginRequest loginRequest) throws NotFoundException {
 //       Users user = userService.loginUser(loginRequest);
@@ -81,5 +92,4 @@ public class UserController {
 //                user
 //        );
 //    }
-
 }
