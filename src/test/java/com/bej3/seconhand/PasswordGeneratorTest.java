@@ -19,6 +19,4 @@ class PasswordGeneratorTest {
     void generatePassword(){
         log.info("{}",passwordEncoder.encode("anton"));
     }
-
-
 }
