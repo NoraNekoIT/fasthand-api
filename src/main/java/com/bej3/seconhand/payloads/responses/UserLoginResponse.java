@@ -9,6 +9,7 @@ import lombok.Setter;
 public class UserLoginResponse {
     private Integer idUser;
     private String email;
+    private String role = "ROLE_ACCOUNT";
     private String type = "Bearer";
     private String accessToken;
 
