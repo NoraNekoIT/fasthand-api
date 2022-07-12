@@ -2,7 +2,6 @@ package com.bej3.seconhand.repositories;
 
 import com.bej3.seconhand.entities.Kategori;
 import com.bej3.seconhand.entities.Produk;
-import com.bej3.seconhand.entities.ProdukTransaksiJoin;
 import com.bej3.seconhand.entities.Users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
