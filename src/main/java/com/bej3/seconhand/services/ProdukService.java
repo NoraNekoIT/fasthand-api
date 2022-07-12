@@ -15,6 +15,9 @@ public interface ProdukService {
                                         Integer idKategori
                                         ) throws NotFoundException;
     WebResponse<String,?> getListProdukByPenjual(int idPenjual) throws NotFoundException;
+
+    ResponseEntity<?> getProdukDetailById(Integer idProduk) throws NotFoundException;
+
     //get Produk Wishlist by penjual where left join transaksi
     ResponseEntity<?> getProdukByWishlist(Integer idPenjual) throws NotFoundException;
 

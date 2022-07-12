@@ -17,6 +17,6 @@ class PasswordGeneratorTest {
 
     @Test
     void generatePassword(){
-        log.info("{}",passwordEncoder.encode("anton"));
+        log.info("{}",passwordEncoder.encode("anton123"));
     }
 }
