@@ -171,6 +171,12 @@ public class ProdukServiceImpl implements ProdukService {
     }
 
     @Override
+    public ResponseEntity<?> getListProdukWithoutPagination(){
+        Stream<ProdukResponse> produkResponse = produkRepository.findAll().stream().map(this::convertProdukToProdukResponse);
+        return ResponseEntity.ok().body(produkResponse);
+    }
+
+    @Override
     public WebResponse<String,?> getListProdukByPenjual(int idPenjual) throws NotFoundException {
         Users penjual = userRepository.findById(idPenjual).orElseThrow(
                 ()-> new NotFoundException("Id Penjual tidak ada"));

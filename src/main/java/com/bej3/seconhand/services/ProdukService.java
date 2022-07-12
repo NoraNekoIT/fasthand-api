@@ -14,6 +14,8 @@ public interface ProdukService {
                                         Integer pageSize,
                                         Integer idKategori
                                         ) throws NotFoundException;
+
+    ResponseEntity<?> getListProdukWithoutPagination();
     WebResponse<String,?> getListProdukByPenjual(int idPenjual) throws NotFoundException;
 
     ResponseEntity<?> getProdukDetailById(Integer idProduk) throws NotFoundException;

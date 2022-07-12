@@ -6,6 +6,7 @@ import com.bej3.seconhand.payloads.responses.WebResponse;
 import com.bej3.seconhand.services.KotaService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,20 +22,26 @@ public class KotaController {
         this.kotaService = kotaService;
     }
 
+//    @GetMapping("/all")
+//    @Operation(description = "mendapatkan semua nama kota, " +
+//            "searchNamaKota sebagai searching berdasarkan nama kota, "+
+//            "pageNo sebagai no dari halaman, " +
+//            "pageSize sebagai jumlah kota yang ingin ditampilkan, " +
+//            "sortBy sorting berdasarkan key Json misal bisa diisi idKota atau namaKota"
+//    )
+//    public WebResponse<String, ?> getListKota(
+//            @RequestParam(required = false) String searchNamaKota,
+//            @RequestParam(defaultValue = "0") Integer pageNo,
+//            @RequestParam(defaultValue = "10") Integer pageSize,
+//            @RequestParam(defaultValue = "idKota") String sortBy
+//    ) {
+//        return kotaService.getListKota(searchNamaKota,pageNo, pageSize, sortBy);
+//    }
+
     @GetMapping("/all")
-    @Operation(description = "mendapatkan semua nama kota, " +
-            "searchNamaKota sebagai searching berdasarkan nama kota, "+
-            "pageNo sebagai no dari halaman, " +
-            "pageSize sebagai jumlah kota yang ingin ditampilkan, " +
-            "sortBy sorting berdasarkan key Json misal bisa diisi idKota atau namaKota"
-    )
-    public WebResponse<String, ?> getListKota(
-            @RequestParam(required = false) String searchNamaKota,
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "idKota") String sortBy
-    ) {
-        return kotaService.getListKota(searchNamaKota,pageNo, pageSize, sortBy);
+    @Operation(description = "Mendapatkan Semua Kota tanpa Pagination")
+    public ResponseEntity<?> getListKotaWithoutPagination(){
+        return kotaService.getListKotaWithoutPagination();
     }
 
 //    @PostMapping("/addKota")

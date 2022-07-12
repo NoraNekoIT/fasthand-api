@@ -29,26 +29,33 @@ public class ProdukController {
         this.produkService = produkService;
     }
 
+//    @GetMapping("/all")
+//    @Operation(
+//            description = "mendapatkan semua list produk, " +
+//                    "searchNamaKota sebagai searching berdasarkan nama produk, " +
+//                    "pageNo sebagai no dari halaman, " +
+//                    "pageSize sebagai jumlah kota yang ingin ditampilkan, " +
+//                    "sortByIdKategori sorting berdasarkan id kategori misal bisa diisi idKategori 1, " +
+//                    "searchNamaProduk dan sortByIdKategor bisa dikosongkan atau isi salah satu karena tidak wajib diisi"
+//    )
+//    public WebResponse<String,?> getListProduk(
+//            @RequestParam(required = false) String searchNamaProduk,
+//            @RequestParam(defaultValue = "0") Integer pageNo,
+//            @RequestParam(defaultValue = "10") Integer pageSize,
+//            @RequestParam(required = false) Integer sortByIdKategori
+//            ) throws NotFoundException {
+//        return produkService.getListProduk(searchNamaProduk,
+//                pageNo,
+//                pageSize,
+//                sortByIdKategori
+//                );
+//    }
+
     @GetMapping("/all")
     @Operation(
-            description = "mendapatkan semua list produk, " +
-                    "searchNamaKota sebagai searching berdasarkan nama produk, " +
-                    "pageNo sebagai no dari halaman, " +
-                    "pageSize sebagai jumlah kota yang ingin ditampilkan, " +
-                    "sortByIdKategori sorting berdasarkan id kategori misal bisa diisi idKategori 1, " +
-                    "searchNamaProduk dan sortByIdKategor bisa dikosongkan atau isi salah satu karena tidak wajib diisi"
-    )
-    public WebResponse<String,?> getListProduk(
-            @RequestParam(required = false) String searchNamaProduk,
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(required = false) Integer sortByIdKategori
-            ) throws NotFoundException {
-        return produkService.getListProduk(searchNamaProduk,
-                pageNo,
-                pageSize,
-                sortByIdKategori
-                );
+            description = "get all produk without pagination"
+    )public ResponseEntity<?> getListProdukWithoutPagination(){
+        return produkService.getListProdukWithoutPagination();
     }
 
     @GetMapping("/penjual/{idPenjual}")
