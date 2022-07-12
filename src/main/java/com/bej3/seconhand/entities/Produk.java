@@ -32,7 +32,8 @@ public class Produk {
     @Column(name = "status_terjual", columnDefinition = "boolean default false")
     private boolean statusTerjual;
 
-    @Column(name = "deskripsi_produk")
+    @Lob
+    @Column(name = "deskripsi_produk" )
     private String deskripsiProduk;
 
     @Column(name = "harga_produk")

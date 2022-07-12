@@ -104,8 +104,15 @@ public class ProdukController {
     ))
     @PreAuthorize("hasRole('SELLER')")
     public WebResponse<String, ?> updateProduk(@Valid @ModelAttribute ProdukUpdateRequest produkUpdateRequest)
-            throws NotFoundException, IOException {
+            throws NotFoundException,
+            IOException {
         return produkService.updateProduk(produkUpdateRequest);
+    }
+
+    @GetMapping("/{idProduk}")
+    @Operation(description = "untuk mendapatkan detail produk by id")
+    public ResponseEntity<?> getDetailProdukById(@PathVariable Integer idProduk) throws NotFoundException {
+        return produkService.getProdukDetailById(idProduk);
     }
 
 }

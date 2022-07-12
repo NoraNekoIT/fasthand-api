@@ -2,17 +2,22 @@ package com.bej3.seconhand.services.impls;
 
 import com.bej3.seconhand.entities.Kategori;
 import com.bej3.seconhand.entities.Produk;
+import com.bej3.seconhand.entities.UserDetails;
 import com.bej3.seconhand.entities.Users;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.requests.ProdukAddRequest;
 import com.bej3.seconhand.payloads.requests.ProdukUpdateRequest;
+import com.bej3.seconhand.payloads.responses.ProdukDetailResponse;
 import com.bej3.seconhand.payloads.responses.ProdukResponse;
+import com.bej3.seconhand.payloads.responses.UserGambarLinkResponse;
 import com.bej3.seconhand.payloads.responses.WebResponse;
 import com.bej3.seconhand.repositories.KategoriRepository;
 import com.bej3.seconhand.repositories.ProdukRepository;
+import com.bej3.seconhand.repositories.UserDetailRepository;
 import com.bej3.seconhand.repositories.UserRepository;
 import com.bej3.seconhand.services.GambarProdukService;
 import com.bej3.seconhand.services.ProdukService;
+import com.bej3.seconhand.utils.HerokuUrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,6 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -37,18 +43,20 @@ public class ProdukServiceImpl implements ProdukService {
     private final ProdukRepository produkRepository;
     private final UserRepository userRepository;
     private final KategoriRepository kategoriRepository;
-
+    private final HerokuUrlUtil herokuUrlUtil;
     private final GambarProdukService gambarProdukService;
 
     @Autowired
     public ProdukServiceImpl(ProdukRepository produkRepository,
                              UserRepository userRepository,
                              KategoriRepository kategoriRepository,
+                             HerokuUrlUtil herokuUrlUtil,
                              GambarProdukService gambarProdukService
     ) {
         this.produkRepository = produkRepository;
         this.userRepository = userRepository;
         this.kategoriRepository = kategoriRepository;
+        this.herokuUrlUtil = herokuUrlUtil;
         this.gambarProdukService = gambarProdukService;
     }
 
@@ -177,6 +185,23 @@ public class ProdukServiceImpl implements ProdukService {
     }
 
     @Override
+    public ResponseEntity<?> getProdukDetailById(Integer idProduk)
+            throws NotFoundException {
+
+            Produk produk = produkRepository.findById(idProduk).orElseThrow(()-> new NotFoundException("idProduk tidak ada"));
+            ProdukDetailResponse produkDetailResponse = convertProdukToProdukDetailResponse(produk);
+            return ResponseEntity.ok().body(
+                    new WebResponse<>(
+                            HttpStatus.OK.value(),
+                            "OK",
+                            "Berhasil mendapatkan detail by idProduk",
+                            produkDetailResponse
+                    )
+            );
+
+    }
+
+    @Override
     public ResponseEntity<?> getProdukByWishlist(Integer idPenjual) throws NotFoundException {
         return null;
     }
@@ -265,6 +290,36 @@ public class ProdukServiceImpl implements ProdukService {
                         produk.getIdProduk()
                 ).map(String::valueOf).collect(Collectors.toSet())
         );
+    }
+
+    private ProdukDetailResponse convertProdukToProdukDetailResponse(Produk produk){
+        return new ProdukDetailResponse(
+                produk.getIdProduk(),
+                produk.isStatusTerhapus(),
+                produk.getNamaProduk(),
+                produk.isStatusTerjual(),
+                produk.getDeskripsiProduk(),
+                produk.getHargaProduk(),
+                produk.getPotonganDiskon(),
+                produk.getKategori(),
+                produk.getUser().getIdUser(),
+                produk.getUser().getName(),
+                convertGambarUserToLinkGambarUser(produk.getUser().getUserDetail()),
+                produk.getUser().getUserDetail().getKota(),
+                gambarProdukService.getGambarProdukByIdProduk(
+                        produk.getIdProduk()
+                ).map(String::valueOf).collect(Collectors.toSet())
+        );
+    }
+
+    private UserGambarLinkResponse convertGambarUserToLinkGambarUser(UserDetails userDetails){
+        if (userDetails.getGambarUser() != null ) {
+            return new UserGambarLinkResponse(
+                    herokuUrlUtil.getUrlApi() + "api/user/" + userDetails.getIdUserDetails() + "/detail/gambar/"
+            );
+        } else {
+            return new UserGambarLinkResponse("");
+        }
     }
 
 }
