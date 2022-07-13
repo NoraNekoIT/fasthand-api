@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserDetailResponse {
     private Integer idUserDetails;
+    private String name;
     private String alamat;
     private Kota kota;
     private String noHp;

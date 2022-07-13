@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class UserUpdateRequest implements Serializable {
     @NotNull(message = "id user null isi dulu")
     private Integer idUserDetails;
+    private String name;
     private String alamat;
     private Integer idKota;
     private String noHp;

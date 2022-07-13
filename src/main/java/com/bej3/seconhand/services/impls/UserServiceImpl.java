@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
         Role buyerRole = roleRepository.findByNamaRole(ERole.ROLE_BUYER).
                 orElseThrow(() -> new RuntimeException("Error: Role is not found. Tambahkan role dulu di database"));
         Role sellerRole = roleRepository.findByNamaRole(ERole.ROLE_SELLER).orElseThrow(
-                ()-> new RuntimeException("Error: Role is not found. Tambahkan role dulu di database"));
+                () -> new RuntimeException("Error: Role is not found. Tambahkan role dulu di database"));
         Set<Role> roles = new HashSet<>();
         roles.add(buyerRole);
         roles.add(sellerRole);
@@ -137,15 +137,15 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
         return ResponseEntity.ok().body(
-        new WebResponse<>(
-                HttpStatus.OK.value(),
-                "OK",
-                "Berhasil Daftar User",
-                new UserDaftarResponse(
-                        user.getIdUser(),
-                        user.getName(),
-                        user.getEmail())
-        ));
+                new WebResponse<>(
+                        HttpStatus.OK.value(),
+                        "OK",
+                        "Berhasil Daftar User",
+                        new UserDaftarResponse(
+                                user.getIdUser(),
+                                user.getName(),
+                                user.getEmail())
+                ));
     }
 
     @Override
@@ -155,13 +155,14 @@ public class UserServiceImpl implements UserService {
                 HttpStatus.OK.value(),
                 "OK",
                 "Detail user",
-                new UserResponse(user.getIdUser(), user.getName(), user.getEmail(),
-                        new UserDetailResponse(
-                                user.getUserDetail().getIdUserDetails(),
-                                user.getUserDetail().getAlamat(),
-                                user.getUserDetail().getKota(),
-                                user.getUserDetail().getNoHp(),
-                                convertGambarUserToLinkGambarUser(user.getUserDetail()))));
+                new UserResponse(user.getIdUser(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getUserDetail().getAlamat(),
+                        user.getUserDetail().getKota(),
+                        user.getUserDetail().getNoHp(),
+                        convertGambarUserToLinkGambarUser(user.getUserDetail())
+                ));
     }
 
     @Override
@@ -172,10 +173,16 @@ public class UserServiceImpl implements UserService {
         if (updateUserRequest.getAlamat() != null) {
             userDetails.setAlamat(updateUserRequest.getAlamat());
         }
+        if (updateUserRequest.getName() != null) {
+            userDetails.getUsers().setName(updateUserRequest.getName());
+        }
         if (updateUserRequest.getIdKota() != null) {
             Kota kota = kotaRepository.findById(updateUserRequest.getIdKota()).
                     orElseThrow(() -> new NotFoundException("id Kota tidak ditemukan cari kota lain"));
             userDetails.setKota(kota);
+
+        }
+        if (updateUserRequest.getNoHp() != null) {
             userDetails.setNoHp(updateUserRequest.getNoHp());
         }
         if (!updateUserRequest.getMultipartFile().isEmpty() ||
@@ -185,6 +192,7 @@ public class UserServiceImpl implements UserService {
             userDetails.setGambarUser(updateUserRequest.getMultipartFile().getBytes());
         }
 
+
         userDetailRepository.save(userDetails);
         return new WebResponse<>(
                 HttpStatus.OK.value(),
@@ -192,6 +200,7 @@ public class UserServiceImpl implements UserService {
                 "Berhasil update user",
                 new UserDetailResponse(
                         userDetails.getIdUserDetails(),
+                        userDetails.getUsers().getName(),
                         userDetails.getAlamat(),
                         userDetails.getKota(),
                         userDetails.getNoHp(),
@@ -205,20 +214,20 @@ public class UserServiceImpl implements UserService {
         Users users = userRepository.findById(changePasswordRequest.getIdUser()).
                 orElseThrow(() -> new NotFoundException("Password Not Found"));
 
-        if (encoder.matches(changePasswordRequest.getOldPassword(), users.getPassword()) == false){
+        if (encoder.matches(changePasswordRequest.getOldPassword(), users.getPassword()) == false) {
             return ResponseEntity.badRequest().body(
                     new WebResponse<String, String>(
                             HttpStatus.BAD_REQUEST.value(),
                             "BAD REQUEST",
                             "Password lama tidak sama,silakan mengisi ulang password lama yang benar",
                             ""
-            ));
-            }
-            users.setPassword(encoder.encode(changePasswordRequest.getNewPassword()));
+                    ));
+        }
+        users.setPassword(encoder.encode(changePasswordRequest.getNewPassword()));
 
 //            users.setPassword(changePasswordRequest.getPassword());
 //            if (PasswordBaruPertama.equalsIgnoreCase(PasswordBaruKedua)){
-                userRepository.save(users);
+        userRepository.save(users);
 //            }else {
 //                NotFoundException ("password tidak sama");
 //            }
@@ -242,8 +251,8 @@ public class UserServiceImpl implements UserService {
                 () -> new NotFoundException("id detail user tidak ada"));
     }
 
-    private UserGambarLinkResponse convertGambarUserToLinkGambarUser(UserDetails userDetails){
-        if (userDetails.getGambarUser() != null ) {
+    private UserGambarLinkResponse convertGambarUserToLinkGambarUser(UserDetails userDetails) {
+        if (userDetails.getGambarUser() != null) {
             return new UserGambarLinkResponse(
                     herokuUrlUtil.getUrlApi() + "api/user/" + userDetails.getIdUserDetails() + "/detail/gambar/"
             );
