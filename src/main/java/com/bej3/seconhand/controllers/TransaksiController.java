@@ -57,4 +57,27 @@ public class TransaksiController {
                                                               TransaksiStatusRequest transaksiStatusRequest) throws NotFoundException {
         return transaksiService.changeStateTransaksi(transaksiStatusRequest);
     }
+
+    @PreAuthorize("hasRole('SELLER')")
+    @Operation(description = "untuk mendapatkan list penawaran",
+            security = @SecurityRequirement(
+                    name = "bearerAuth"
+            )
+    )
+    @GetMapping("penjual/{idPenjual}/penawaran")
+    public ResponseEntity<?> getPenawaranByPenjual(@PathVariable Integer idPenjual) throws NotFoundException {
+        return transaksiService.getPenawaranByPenjual(idPenjual);
+    }
+
+    @PreAuthorize("hasRole('SELLER')")
+    @Operation(description = "untuk mendapatkan list transaksi",
+            security = @SecurityRequirement(
+                    name = "bearerAuth"
+            )
+    )
+    @GetMapping("penjual/{idPenjual}/transaksi")
+    public ResponseEntity<?> getTransaksiByPenjual(@PathVariable Integer idPenjual) throws NotFoundException {
+        return transaksiService.getTransaksiByPenjual(idPenjual);
+    }
+
 }

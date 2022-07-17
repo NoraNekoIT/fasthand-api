@@ -287,13 +287,11 @@ public class ProdukServiceImpl implements ProdukService {
     @Override
     public WebResponse<String, ?> updateProduk(ProdukUpdateRequest produkUpdateRequest) throws NotFoundException {
 
-
         Produk produk = produkRepository.findById(produkUpdateRequest.getIdProduk()).orElseThrow(
                 ()->new NotFoundException("id produk tidak ditemukan"));
         Users userPenjual = userRepository.
                 findById(produkUpdateRequest.getIdPenjual()).orElseThrow(
                         ()->new NotFoundException("id penjual tidak ditemukan"));
-
 
         if (!Objects.equals(produk.getUser().getIdUser(), userPenjual.getIdUser())){
             throw new NotFoundException("id produk dengan id penjual anda tidak ada");
