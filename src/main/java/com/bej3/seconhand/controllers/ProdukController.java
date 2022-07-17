@@ -1,10 +1,8 @@
 package com.bej3.seconhand.controllers;
 
-import com.bej3.seconhand.entities.Kategori;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.requests.ProdukAddRequest;
 import com.bej3.seconhand.payloads.requests.ProdukUpdateRequest;
-import com.bej3.seconhand.payloads.requests.UserUpdateRequest;
 import com.bej3.seconhand.payloads.responses.WebResponse;
 import com.bej3.seconhand.services.ProdukService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -67,13 +65,40 @@ public class ProdukController {
     )
     public WebResponse<String,?> getListProdukByPenjual(@PathVariable int idPenjual)
             throws NotFoundException {
-        return produkService.getListProdukByPenjual(idPenjual);
+        return produkService.getListProdukByPenjualWithoutPagination(idPenjual);
     }
 
-//    @GetMapping("/all/kategori/{idKategori}")
-//    public WebResponse<String,?> getListProdukByKategori(@PathVariable int idKategori) throws NotFoundException {
-//      return produkService.getListProdukByKategori(idKategori);
-//    }
+    @GetMapping("/penjual/{idPenjual}/wishlist")
+    @PreAuthorize("hasRole('SELLER')")
+    @Operation(description = "untuk mendapatkan beranda get list berdasarkan id penjual dan wishlist",
+            security = @SecurityRequirement(
+                    name = "bearerAuth"
+            )
+    )
+    public ResponseEntity<?> getProdukByPenjualWishlistWithoutPagination(@PathVariable Integer idPenjual) throws NotFoundException {
+        return produkService.getProdukByPenjualWishlistWithoutPagination(idPenjual);
+    }
+
+    @GetMapping("/penjual/{idPenjual}/transaksi")
+    @PreAuthorize("hasRole('SELLER')")
+    @Operation(description = "untuk mendapatkan beranda get list berdasarkan id penjual dan transaksi",
+            security = @SecurityRequirement(
+                    name = "bearerAuth"
+            )
+    )
+    public ResponseEntity<?> getProdukByPenjualTransaksiWithoutPagination(@PathVariable Integer idPenjual) throws NotFoundException{
+        return produkService.getProdukByPenjualTransaksiWithoutPagination(idPenjual);
+    }
+
+    @GetMapping("/cari")
+    public ResponseEntity<?> searchProdukByNameWithoutPagination(@RequestParam String searchName) throws NotFoundException {
+        return produkService.searchProdukByNameWithoutPagination(searchName);
+    }
+
+    @GetMapping("/kategori")
+    public ResponseEntity<?> sortProdukByKategoriWithoutPagination(@RequestParam Integer idKategori) throws NotFoundException{
+        return produkService.sortProdukByKategoriWithoutPagination(idKategori);
+    }
 
     @RequestMapping(value = "/add",
             method = RequestMethod.POST,

@@ -16,14 +16,14 @@ public interface ProdukService {
                                         ) throws NotFoundException;
 
     ResponseEntity<?> getListProdukWithoutPagination();
-    WebResponse<String,?> getListProdukByPenjual(int idPenjual) throws NotFoundException;
+    WebResponse<String,?> getListProdukByPenjualWithoutPagination(int idPenjual) throws NotFoundException;
+    ResponseEntity<?> getProdukByPenjualWishlistWithoutPagination(Integer idPenjual) throws NotFoundException;
+    ResponseEntity<?> getProdukByPenjualTransaksiWithoutPagination(Integer idPenjual) throws NotFoundException;
+    ResponseEntity<?> searchProdukByNameWithoutPagination(String nameProduk) throws NotFoundException;
+    ResponseEntity<?> sortProdukByKategoriWithoutPagination(Integer kategori) throws NotFoundException;
 
     ResponseEntity<?> getProdukDetailById(Integer idProduk) throws NotFoundException;
 
-    //get Produk Wishlist by penjual where left join transaksi
-    ResponseEntity<?> getProdukByWishlist(Integer idPenjual) throws NotFoundException;
-
-//    WebResponse<String,?> getListProdukByKategori(int kategori) throws NotFoundException;
     WebResponse<String,?> deleteProduk(Integer idProduk,
                                        Integer idPenjual) throws NotFoundException;
     WebResponse<String,?> updateProduk(ProdukUpdateRequest produkUpdateRequest) throws NotFoundException;
