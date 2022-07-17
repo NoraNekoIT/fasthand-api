@@ -192,13 +192,14 @@ public class TransaksiServiceImpl implements TransaksiService {
         );
     }
 
-//    @Override
-//    public ResponseEntity<?> getPenawaranByPenjual(Integer idPenjual) {
-//        return null;
-//    }
-//
-//    @Override
-//    public ResponseEntity<?> getTransaksiByPenjual(Integer idPenjual) {
-//        return null;
-//    }
+    @Override
+    public ResponseEntity<?> getPenawaranByPenjual(Integer idPenjual) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> getTransaksiByPenjual(Integer idPenjual) {
+        return null;
+    }
+
 }

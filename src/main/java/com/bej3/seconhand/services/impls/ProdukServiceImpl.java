@@ -1,9 +1,6 @@
 package com.bej3.seconhand.services.impls;
 
-import com.bej3.seconhand.entities.Kategori;
-import com.bej3.seconhand.entities.Produk;
-import com.bej3.seconhand.entities.UserDetails;
-import com.bej3.seconhand.entities.Users;
+import com.bej3.seconhand.entities.*;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.requests.ProdukAddRequest;
 import com.bej3.seconhand.payloads.requests.ProdukUpdateRequest;
@@ -11,10 +8,7 @@ import com.bej3.seconhand.payloads.responses.ProdukDetailResponse;
 import com.bej3.seconhand.payloads.responses.ProdukResponse;
 import com.bej3.seconhand.payloads.responses.UserGambarLinkResponse;
 import com.bej3.seconhand.payloads.responses.WebResponse;
-import com.bej3.seconhand.repositories.KategoriRepository;
-import com.bej3.seconhand.repositories.ProdukRepository;
-import com.bej3.seconhand.repositories.UserDetailRepository;
-import com.bej3.seconhand.repositories.UserRepository;
+import com.bej3.seconhand.repositories.*;
 import com.bej3.seconhand.services.GambarProdukService;
 import com.bej3.seconhand.services.ProdukService;
 import com.bej3.seconhand.utils.HerokuUrlUtil;
@@ -44,6 +38,7 @@ public class ProdukServiceImpl implements ProdukService {
     private final UserRepository userRepository;
     private final KategoriRepository kategoriRepository;
     private final HerokuUrlUtil herokuUrlUtil;
+    private final NotifikasiRepository notifikasiRepository;
     private final GambarProdukService gambarProdukService;
 
     @Autowired
@@ -51,12 +46,14 @@ public class ProdukServiceImpl implements ProdukService {
                              UserRepository userRepository,
                              KategoriRepository kategoriRepository,
                              HerokuUrlUtil herokuUrlUtil,
+                             NotifikasiRepository notifikasiRepository,
                              GambarProdukService gambarProdukService
     ) {
         this.produkRepository = produkRepository;
         this.userRepository = userRepository;
         this.kategoriRepository = kategoriRepository;
         this.herokuUrlUtil = herokuUrlUtil;
+        this.notifikasiRepository = notifikasiRepository;
         this.gambarProdukService = gambarProdukService;
     }
 
@@ -103,6 +100,13 @@ public class ProdukServiceImpl implements ProdukService {
             gambarProdukService.uploadGambarProduk(files.get(file),
                     produkAdd.getIdProduk());
         }
+        //Penjual
+        Notifikasi addNotifikasiPenjual = new Notifikasi(
+                "kamu berhasil menambahkan produk " +produk.getNamaProduk(),
+                produk.getUser(),
+                null
+        );
+        notifikasiRepository.save(addNotifikasiPenjual);
         return  ResponseEntity.ok().body( new WebResponse<>(
                 HttpStatus.OK.value(),
                 "OK",
@@ -177,7 +181,7 @@ public class ProdukServiceImpl implements ProdukService {
     }
 
     @Override
-    public WebResponse<String,?> getListProdukByPenjual(int idPenjual) throws NotFoundException {
+    public WebResponse<String,?> getListProdukByPenjualWithoutPagination(int idPenjual) throws NotFoundException {
         Users penjual = userRepository.findById(idPenjual).orElseThrow(
                 ()-> new NotFoundException("Id Penjual tidak ada"));
         Stream<ProdukResponse> produkResponses = produkRepository.findAllProdukByPenjual(penjual)
@@ -189,6 +193,56 @@ public class ProdukServiceImpl implements ProdukService {
                 produkResponses
         );
     }
+
+    @Override
+    public ResponseEntity<?> getProdukByPenjualWishlistWithoutPagination(Integer idPenjual) throws NotFoundException {
+        Users penjual =userRepository.findById(idPenjual).orElseThrow(
+                ()->new NotFoundException("Id Penjual tidak ada")
+        );
+        Stream<ProdukResponse> produkResponseStream = produkRepository.findAllProdukByWishlist(penjual).stream().map(
+                this::convertProdukToProdukResponse
+        );
+        return ResponseEntity.ok().body(
+                produkResponseStream
+        );
+    }
+
+    @Override
+    public ResponseEntity<?> getProdukByPenjualTransaksiWithoutPagination(Integer idPenjual) throws NotFoundException {
+        Users penjual = userRepository.findById(idPenjual).orElseThrow(
+                ()->new NotFoundException("Id Penjual tidak ada")
+        );
+        Stream<ProdukResponse> produkResponseStream = produkRepository.findAllProdukByTransaksi(penjual).stream().map(
+                this::convertProdukToProdukResponse
+        );
+        return ResponseEntity.ok().body(
+                produkResponseStream
+        );
+    }
+
+    @Override
+    public ResponseEntity<?> searchProdukByNameWithoutPagination(String nameProduk) throws NotFoundException {
+        Stream<ProdukResponse> produkResponseStream = produkRepository.findByNamaProdukContains(nameProduk).stream().map(
+                this::convertProdukToProdukResponse
+        );
+        return ResponseEntity.ok().body(
+                produkResponseStream
+        );
+    }
+
+    @Override
+    public ResponseEntity<?> sortProdukByKategoriWithoutPagination(Integer kategori) throws NotFoundException {
+        Kategori checkKategori = kategoriRepository.findById(kategori).orElseThrow(
+                ()-> new NotFoundException("kategori tidak ada")
+        );
+        Stream<ProdukResponse> produkResponseStream = produkRepository.findAllProdukByKategori(checkKategori).stream().map(
+                this::convertProdukToProdukResponse
+        );
+        return  ResponseEntity.ok().body(
+                produkResponseStream
+        );
+    }
+
 
     @Override
     public ResponseEntity<?> getProdukDetailById(Integer idProduk)
@@ -207,23 +261,6 @@ public class ProdukServiceImpl implements ProdukService {
 
     }
 
-    @Override
-    public ResponseEntity<?> getProdukByWishlist(Integer idPenjual) throws NotFoundException {
-        return null;
-    }
-
-//    @Override
-//    public WebResponse<String,?> getListProdukByKategori(int idKategori) throws NotFoundException {
-//        Kategori kategori = kategoriRepository.findById(idKategori).orElseThrow(NotFoundException::new);
-//        Stream<ProdukResponse> produkResponses = produkRepository.findAllProdukByKategori(kategori).
-//                stream().map(this::convertProdukToProdukResponse);
-//        return new WebResponse<>(
-//                HttpStatus.OK.value(),
-//                "OK",
-//                "Berhasil mendapatkan list produk by Kategori",
-//                produkResponses
-//        );
-//    }
 
     @Override
     public WebResponse<String,?> deleteProduk(Integer idProduk,

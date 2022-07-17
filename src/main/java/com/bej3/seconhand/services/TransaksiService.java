@@ -13,8 +13,7 @@ public interface TransaksiService {
     ResponseEntity<?> changeStateTransaksi(TransaksiStatusRequest transaksiStatusRequest) throws NotFoundException;
 
 //    //get penawaran by penjual
-//    ResponseEntity<?> getPenawaranByPenjual(Integer idPenjual );
+    ResponseEntity<?> getPenawaranByPenjual(Integer idPenjual);
 //    //get transaksi by penjual
-//    ResponseEntity<?> getTransaksiByPenjual(Integer idPenjual);
-
+    ResponseEntity<?> getTransaksiByPenjual(Integer idPenjual);
 }
