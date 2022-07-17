@@ -8,6 +8,8 @@ import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.requests.PenawaranCreateRequest;
 import com.bej3.seconhand.payloads.requests.PenawaranStatusRequest;
 import com.bej3.seconhand.payloads.requests.TransaksiStatusRequest;
+import com.bej3.seconhand.payloads.responses.TransaksiPenawaranResponse;
+import com.bej3.seconhand.payloads.responses.TransaksiResponse;
 import com.bej3.seconhand.payloads.responses.WebResponse;
 import com.bej3.seconhand.repositories.NotifikasiRepository;
 import com.bej3.seconhand.repositories.ProdukRepository;
@@ -18,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Stream;
 
 @Service
 public class TransaksiServiceImpl implements TransaksiService {
@@ -193,13 +197,48 @@ public class TransaksiServiceImpl implements TransaksiService {
     }
 
     @Override
-    public ResponseEntity<?> getPenawaranByPenjual(Integer idPenjual) {
-        return null;
+    public ResponseEntity<?> getPenawaranByPenjual(Integer idPenjual) throws NotFoundException {
+        Users checkPenjual = userRepository.findById(idPenjual).orElseThrow(
+                () -> new NotFoundException("id penjual tidak ada")
+        );
+        Stream<TransaksiPenawaranResponse> penawaran = transaksiRepository.findAllByStatusTransaksiFalseAndProduk_User(checkPenjual)
+                .stream().map(this::convertPenawaranToTransaksiPenawaranResponse);
+        return ResponseEntity.ok().body(penawaran);
     }
 
     @Override
-    public ResponseEntity<?> getTransaksiByPenjual(Integer idPenjual) {
-        return null;
+    public ResponseEntity<?> getTransaksiByPenjual(Integer idPenjual) throws NotFoundException {
+        Users checkPenjual = userRepository.findById(idPenjual).orElseThrow(
+                () -> new NotFoundException("id penjual tidak ada")
+        );
+        Stream<TransaksiResponse> transaksiResponseStream = transaksiRepository.findAllByProduk_User(checkPenjual).stream().map(
+                this::convertTransaksiToTransaksiResponse
+        );
+        return ResponseEntity.ok().body(
+                transaksiResponseStream
+        );
+    }
+
+    private TransaksiPenawaranResponse convertPenawaranToTransaksiPenawaranResponse(Transaksi penawaran){
+        return new TransaksiPenawaranResponse(
+                penawaran.getIdTransaksi(),
+                penawaran.getHargaTawaran(),
+                penawaran.isStatusTawaran(),
+                penawaran.isStatusTransaksi(),
+                penawaran.getUser().getIdUser(),
+                penawaran.getProduk().getIdProduk()
+        );
+    }
+
+    private TransaksiResponse convertTransaksiToTransaksiResponse(Transaksi transaksi){
+        return new TransaksiResponse(
+                transaksi.getIdTransaksi(),
+                transaksi.getHargaTawaran(),
+                transaksi.isStatusTawaran(),
+                transaksi.isStatusTransaksi(),
+                transaksi.getUser().getIdUser(),
+                transaksi.getProduk().getIdProduk()
+        );
     }
 
 }
