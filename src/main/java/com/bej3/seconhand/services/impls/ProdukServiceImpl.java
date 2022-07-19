@@ -22,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -248,16 +247,16 @@ public class ProdukServiceImpl implements ProdukService {
     public ResponseEntity<?> getProdukDetailById(Integer idProduk)
             throws NotFoundException {
 
-            Produk produk = produkRepository.findById(idProduk).orElseThrow(()-> new NotFoundException("idProduk tidak ada"));
-            ProdukDetailResponse produkDetailResponse = convertProdukToProdukDetailResponse(produk);
-            return ResponseEntity.ok().body(
-                    new WebResponse<>(
-                            HttpStatus.OK.value(),
-                            "OK",
-                            "Berhasil mendapatkan detail by idProduk",
-                            produkDetailResponse
-                    )
-            );
+        Produk produk = produkRepository.findById(idProduk).orElseThrow(()-> new NotFoundException("idProduk tidak ada"));
+        ProdukDetailResponse produkDetailResponse = convertProdukToProdukDetailResponse(produk);
+        return ResponseEntity.ok().body(
+                new WebResponse<>(
+                        HttpStatus.OK.value(),
+                        "OK",
+                        "Berhasil mendapatkan detail by idProduk",
+                        produkDetailResponse
+                )
+        );
 
     }
 
