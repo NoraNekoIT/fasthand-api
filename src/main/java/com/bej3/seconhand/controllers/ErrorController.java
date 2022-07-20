@@ -3,6 +3,7 @@ package com.bej3.seconhand.controllers;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.responses.WebResponse;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
