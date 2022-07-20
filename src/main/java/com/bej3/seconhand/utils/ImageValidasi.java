@@ -4,15 +4,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ImageValidasi {
 
-    public static boolean validasiImage(MultipartFile file){
-        if ("image/jpg".equals(file.getContentType())){
-            return true;
-        }else if (("image/png".equals(file.getContentType()))){
-            return true;
-        }else if (("image/jpeg".equals(file.getContentType()))){
+    public static boolean validasiImage(MultipartFile file) {
+        if ( ("image/jpg".equals(file.getContentType())) || ("image/png".equals(file.getContentType()))
+                || ("image/jpeg".equals(file.getContentType()))
+        ){
             return true;
         }
-        else {
+        else{
             return false;
         }
     }
