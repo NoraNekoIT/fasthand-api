@@ -20,7 +20,7 @@ public interface UserService {
     WebResponse<String,?> authenticateUser(UserLoginRequest userLoginRequest);
     ResponseEntity<?> registerUser(UserSignupRequest signUpRequestUser);
     WebResponse<String,?> getUserById(int idUser) throws NotFoundException;
-    WebResponse<String,?> updateUserDetail(UserUpdateRequest updateUserRequest)
+    ResponseEntity<?> updateUserDetail(UserUpdateRequest updateUserRequest)
             throws NotFoundException, IOException;
     ResponseEntity<?> ChangePasswordUser(ChangePasswordRequest changePasswordRequest)
             throws NotFoundException, IOException;

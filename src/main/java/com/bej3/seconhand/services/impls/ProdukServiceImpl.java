@@ -12,6 +12,7 @@ import com.bej3.seconhand.repositories.*;
 import com.bej3.seconhand.services.GambarProdukService;
 import com.bej3.seconhand.services.ProdukService;
 import com.bej3.seconhand.utils.HerokuUrlUtil;
+import com.bej3.seconhand.utils.ImageValidasi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +60,7 @@ public class ProdukServiceImpl implements ProdukService {
     @Override
     public ResponseEntity<?> addProduk(ProdukAddRequest produkAddRequest) throws NotFoundException, IOException {
 
+        //validasi jumlah gambar produk
         if (produkAddRequest.getFile().size()>5){
             return ResponseEntity.badRequest().body( new WebResponse<>(
                     HttpStatus.BAD_REQUEST.value(),
@@ -68,7 +69,23 @@ public class ProdukServiceImpl implements ProdukService {
                     ""
             ));
         }
+
         List<MultipartFile> files = produkAddRequest.getFile();
+
+        //validasi image
+        for (int file=0; file<files.size(); file++) {
+            if (!ImageValidasi.validasiImage(produkAddRequest.getFile().get(file))){
+                return  ResponseEntity.badRequest().body(
+                        new WebResponse<>(
+                                HttpStatus.BAD_REQUEST.value(),
+                                "BAD REQUST",
+                                "format image harus jpg/ png",
+                                ""
+                        )
+                );
+            }
+        }
+
         Users userPenjual = userRepository.
                 findById(produkAddRequest.getIdPenjual()).orElseThrow(
                         ()->new NotFoundException("id penjual tidak ditemukan"));
@@ -248,16 +265,16 @@ public class ProdukServiceImpl implements ProdukService {
     public ResponseEntity<?> getProdukDetailById(Integer idProduk)
             throws NotFoundException {
 
-            Produk produk = produkRepository.findById(idProduk).orElseThrow(()-> new NotFoundException("idProduk tidak ada"));
-            ProdukDetailResponse produkDetailResponse = convertProdukToProdukDetailResponse(produk);
-            return ResponseEntity.ok().body(
-                    new WebResponse<>(
-                            HttpStatus.OK.value(),
-                            "OK",
-                            "Berhasil mendapatkan detail by idProduk",
-                            produkDetailResponse
-                    )
-            );
+        Produk produk = produkRepository.findById(idProduk).orElseThrow(()-> new NotFoundException("idProduk tidak ada"));
+        ProdukDetailResponse produkDetailResponse = convertProdukToProdukDetailResponse(produk);
+        return ResponseEntity.ok().body(
+                new WebResponse<>(
+                        HttpStatus.OK.value(),
+                        "OK",
+                        "Berhasil mendapatkan detail by idProduk",
+                        produkDetailResponse
+                )
+        );
 
     }
 
