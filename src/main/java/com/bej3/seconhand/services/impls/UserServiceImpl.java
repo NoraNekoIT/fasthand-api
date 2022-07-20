@@ -11,6 +11,7 @@ import com.bej3.seconhand.repositories.*;
 import com.bej3.seconhand.securities.jwt.JwtUtils;
 import com.bej3.seconhand.services.UserService;
 import com.bej3.seconhand.utils.HerokuUrlUtil;
+import com.bej3.seconhand.utils.ImageValidasi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -165,10 +167,23 @@ public class UserServiceImpl implements UserService {
                 ));
     }
 
+
+
     @Override
-    public WebResponse<String, ?> updateUserDetail(UserUpdateRequest updateUserRequest) throws NotFoundException, IOException {
+    public ResponseEntity<?> updateUserDetail(UserUpdateRequest updateUserRequest) throws NotFoundException, IOException {
         UserDetails userDetails = userDetailRepository.findById(updateUserRequest.getIdUserDetails()).
                 orElseThrow(() -> new NotFoundException("id user Detail Not Found"));
+
+        if (!ImageValidasi.validasiImage(updateUserRequest.getMultipartFile())){
+            return  ResponseEntity.badRequest().body(
+              new WebResponse<>(
+                      HttpStatus.BAD_REQUEST.value(),
+                      "BAD REQUST",
+                      "format image harus jpg/ png",
+                      ""
+              )
+            );
+        }
 
         if (updateUserRequest.getAlamat() != null) {
             userDetails.setAlamat(updateUserRequest.getAlamat());
@@ -194,18 +209,21 @@ public class UserServiceImpl implements UserService {
 
 
         userDetailRepository.save(userDetails);
-        return new WebResponse<>(
-                HttpStatus.OK.value(),
-                "OK",
-                "Berhasil update user",
-                new UserDetailResponse(
-                        userDetails.getIdUserDetails(),
-                        userDetails.getUsers().getName(),
-                        userDetails.getAlamat(),
-                        userDetails.getKota(),
-                        userDetails.getNoHp(),
-                        convertGambarUserToLinkGambarUser(userDetails)
-                ));
+        return ResponseEntity.ok().body(
+                new WebResponse<>(
+                        HttpStatus.OK.value(),
+                        "OK",
+                        "Berhasil update user",
+                        new UserDetailResponse(
+                                userDetails.getIdUserDetails(),
+                                userDetails.getUsers().getName(),
+                                userDetails.getAlamat(),
+                                userDetails.getKota(),
+                                userDetails.getNoHp(),
+                                convertGambarUserToLinkGambarUser(userDetails)
+                        ))
+        );
+
     }
 
 

@@ -1,6 +1,5 @@
 package com.bej3.seconhand.controllers;
 
-import com.bej3.seconhand.entities.GambarProduk;
 import com.bej3.seconhand.entities.UserDetails;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.payloads.requests.ChangePasswordRequest;
@@ -10,7 +9,6 @@ import com.bej3.seconhand.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -58,7 +56,7 @@ public class UserController {
             name = "bearerAuth"
     ))
     @PreAuthorize("hasRole('BUYER')or hasRole('SELLER')")
-    public WebResponse<String, ?> updateUserDetail(@Valid @ModelAttribute UserUpdateRequest updateUserRequest)
+    public ResponseEntity<?> updateUserDetail(@Valid @ModelAttribute UserUpdateRequest updateUserRequest)
             throws NotFoundException, IOException {
         return userService.updateUserDetail(updateUserRequest);
     }
