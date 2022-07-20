@@ -1,23 +1,26 @@
 package com.bej3.seconhand;
 
 
+import com.bej3.seconhand.entities.GambarProduk;
 import com.bej3.seconhand.errors.NotFoundException;
 import com.bej3.seconhand.repositories.GambarProdukRepository;
 import com.bej3.seconhand.repositories.ProdukRepository;
 import com.bej3.seconhand.services.impls.GambarProdukServiceImpl;
 import com.bej3.seconhand.utils.HerokuUrlUtil;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
+
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class GambarProdukTest {
+@Slf4j
+class GambarProdukTest {
 
     @Mock
     GambarProdukRepository gambarProdukRepository;
@@ -35,8 +38,12 @@ public class GambarProdukTest {
 
     @Test
     @DisplayName("Test get Gambar Product")
-    void testUploadGambarProduk() throws NotFoundException {
-        System.out.println(gambarProdukService.getGambarProduk(3));
-//        Mockito.verify(gambarProdukRepository).findById(1);
+    @Order(2)
+    void testGetGambarProduk() throws NotFoundException {
+        GambarProduk isiGambarProdukmock = new GambarProduk(10,"gambar Product","Gambar Produk 1",null,null);
+        Mockito.lenient().when(gambarProdukRepository.findById(10)).thenReturn(Optional.of(isiGambarProdukmock));
+        log.info(gambarProdukRepository.findById(10).get().getIdGambarProduk().toString());
+        gambarProdukService.getGambarProduk(10).getIdGambarProduk();
+        Assertions.assertEquals(gambarProdukRepository.findById(10).get().getIdGambarProduk(),gambarProdukService.getGambarProduk(10).getIdGambarProduk());
     }
 }
