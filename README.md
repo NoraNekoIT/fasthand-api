@@ -11,6 +11,7 @@ Seconhand is an online buying and selling platform for used goods
 ## Data
 - `nama-kota.sql`
 - `role.sql`
+- `kategori.sql`
 ## Technologies
 - Language   :`Java 1.8`
 - Framework  : `Spring Boot`
