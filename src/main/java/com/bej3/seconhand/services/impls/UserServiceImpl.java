@@ -106,16 +106,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> registerUser(UserSignupRequest signUpRequestUser) {
-        if (Boolean.TRUE.equals(userRepository.existsByEmail(signUpRequestUser.getEmail()))) {
-            return ResponseEntity.badRequest().body(
-                    new WebResponse<>(
-                            HttpStatus.BAD_REQUEST.value(),
-                            "BAD REQUEST",
-                            "Email Sudah digunakan coba email lain",
-                            ""
-                    )
-            );
+
+        try {
+            if (Boolean.TRUE.equals(userRepository.existsByEmail(signUpRequestUser.getEmail()))) {
+                return ResponseEntity.badRequest().body(
+                        new WebResponse<>(
+                                HttpStatus.BAD_REQUEST.value(),
+                                "BAD REQUEST",
+                                "Email Sudah digunakan coba email lain",
+                                ""
+                        )
+                );
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
+
         Users user = new Users(signUpRequestUser.getName(),
                 signUpRequestUser.getEmail(),
                 encoder.encode(signUpRequestUser.getPassword()));
