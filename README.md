@@ -9,8 +9,7 @@ This is a final Java backend independent study project with a secondhand topic.
 Seconhand is an online buying and selling platform for used goods
 
 ## UML
-
-![db_fasthand_api_uml](https://user-images.githubusercontent.com/58914195/180144333-9561bcfc-6244-4013-8d27-2c357251f289.png)
+![db_fasthand_api_uml](https://user-images.githubusercontent.com/58914195/180153769-191e47bd-8934-46a3-9b1d-6496e2b274f8.png)
 
 
 ## Data
