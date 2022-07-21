@@ -8,6 +8,11 @@
 This is a final Java backend independent study project with a secondhand topic.
 Seconhand is an online buying and selling platform for used goods
 
+## UML
+
+![db_fasthand_api_uml](https://user-images.githubusercontent.com/58914195/180144333-9561bcfc-6244-4013-8d27-2c357251f289.png)
+
+
 ## Data
 - `nama-kota.sql`
 - `role.sql`
@@ -18,6 +23,7 @@ Seconhand is an online buying and selling platform for used goods
 - Database   : `Postgres`
 - Deployment : `Heroku`
 - CI/CD      : `Circle CI`
+- Loging     : `SLF4J` 
 ## Library
 - `Jpa`
 - `Swagger`
