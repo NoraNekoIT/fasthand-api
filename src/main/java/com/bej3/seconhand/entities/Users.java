@@ -1,5 +1,6 @@
 package com.bej3.seconhand.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity(name = "users")
