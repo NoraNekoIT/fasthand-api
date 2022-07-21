@@ -11,7 +11,6 @@ Seconhand is an online buying and selling platform for used goods
 ## UML
 ![db_fasthand_api_uml](https://user-images.githubusercontent.com/58914195/180153769-191e47bd-8934-46a3-9b1d-6496e2b274f8.png)
 
-
 ## Data
 - `nama-kota.sql`
 - `role.sql`
@@ -25,11 +24,15 @@ Seconhand is an online buying and selling platform for used goods
 - Loging     : `SLF4J` 
 ## Library
 - `Jpa`
+- `Starter Web`
 - `Swagger`
 - `Jwt`
 - `Validation`
 - `Postgres`
 - `Lombok`
 - `Security`
+- `Gson`
+- `Startet Test`
+- `Junit Jupiter`
 
 `Build on 2022` 
