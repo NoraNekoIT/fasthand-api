@@ -13,10 +13,11 @@ Seconhand is an online buying and selling platform for used goods
 - `role.sql`
 - `kategori.sql`
 ## Technologies
-- Language   :`Java 1.8`
+- Language   : `Java 1.8`
 - Framework  : `Spring Boot`
 - Database   : `Postgres`
 - Deployment : `Heroku`
+- CI/CD      : `Circle CI`
 ## Library
 - `Jpa`
 - `Swagger`
