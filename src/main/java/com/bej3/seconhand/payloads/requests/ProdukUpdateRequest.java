@@ -26,6 +26,6 @@ public class ProdukUpdateRequest {
     private Integer idKategori;
     @NotNull(message = "idPenjual tidak boleh null")
     private Integer idPenjual;
-//    @NotNull(message = "isi gambar minimal 1 gambar max 5")
-//    private List<MultipartFile> file;
+    @NotNull(message = "isi gambar minimal 1 gambar max 5")
+    private List<MultipartFile> file;
 }
