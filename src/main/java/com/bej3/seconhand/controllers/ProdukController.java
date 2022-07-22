@@ -135,7 +135,7 @@ public class ProdukController {
             name = "bearerAuth"
     ))
     @PreAuthorize("hasRole('SELLER')")
-    public WebResponse<String, ?> updateProduk(@Valid @ModelAttribute ProdukUpdateRequest produkUpdateRequest)
+    public ResponseEntity<?> updateProduk(@Valid @ModelAttribute ProdukUpdateRequest produkUpdateRequest)
             throws NotFoundException,
             IOException {
         return produkService.updateProduk(produkUpdateRequest);

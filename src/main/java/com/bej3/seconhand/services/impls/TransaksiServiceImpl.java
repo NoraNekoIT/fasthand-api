@@ -44,9 +44,22 @@ public class TransaksiServiceImpl implements TransaksiService {
 
     @Override
     public ResponseEntity<?> addPenawaran(PenawaranCreateRequest penawaranCreateRequest) throws NotFoundException {
+        // addPenawaran ditambahkan validasi produk tidak ada
         Produk checkProduk = produkRepository.findById(penawaranCreateRequest.getIdProduk()).orElseThrow(
                 () -> new NotFoundException("id produk tidak ditemukan")
         );
+
+        if (checkProduk.isStatusTerjual()== true){
+            return ResponseEntity.badRequest().body(
+                    new WebResponse<>(
+                            HttpStatus.BAD_REQUEST.value(),
+                            "BAD REQUEST",
+                            "tidak bisa melakukan penawaran karena produk sudah terjual",
+                            ""
+                    )
+            );
+        }
+
         Users checkUserPembeli = userRepository.findById(penawaranCreateRequest.getIdUserPembeli()).orElseThrow(
                 () -> new NotFoundException("id user tidak ada")
         );

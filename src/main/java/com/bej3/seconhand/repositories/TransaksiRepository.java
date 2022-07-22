@@ -16,7 +16,7 @@ public interface TransaksiRepository extends JpaRepository<Transaksi, Integer> {
     List<Transaksi> findAllByStatusTransaksiFalseAndProduk_User(Users produk_user);
 
     // get transaksi
-    List<Transaksi> findAllByProduk_User(Users penjual);
+    List<Transaksi> findAllByProduk_User(Users produk_user);
 
     //    get list wishlist dengan status transaksi = false dan distinct(id_user_pembeli dan id_produk)
 //    get list produk dimana transaksi id produk status penjualan true

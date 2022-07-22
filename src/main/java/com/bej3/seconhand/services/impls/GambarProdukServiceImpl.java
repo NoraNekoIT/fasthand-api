@@ -52,6 +52,19 @@ public class GambarProdukServiceImpl implements GambarProdukService{
     }
 
     @Override
+    public void updateGambarProduk(int id ,
+                                   String namaGambar,
+                                   String type,
+                                   byte[] gambarProduk
+                                   ) throws NotFoundException {
+        GambarProduk gambarProdukUpdate = gambarProdukRepository.findById(id).orElseThrow(()->new NotFoundException("gambar tidak ditemukan"));
+        gambarProdukUpdate.setGambarProduk(gambarProduk);
+        gambarProdukUpdate.setNamaGambarProduk(namaGambar);
+        gambarProdukUpdate.setType(type);
+        gambarProdukRepository.save(gambarProdukUpdate);
+    }
+
+    @Override
     public Stream<GambarProdukLinkResponse> getGambarProdukByIdProduk(int idProduk) {
         Optional<Produk> produk = produkRepository.findById(idProduk);
         return gambarProdukRepository.findAllGambarProdukByProduk(produk).stream().map(this::convertGambarProdukToLink);

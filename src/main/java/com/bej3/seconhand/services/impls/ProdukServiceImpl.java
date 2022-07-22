@@ -13,6 +13,7 @@ import com.bej3.seconhand.services.GambarProdukService;
 import com.bej3.seconhand.services.ProdukService;
 import com.bej3.seconhand.utils.HerokuUrlUtil;
 import com.bej3.seconhand.utils.ImageValidasi;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,13 +25,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 @Service
 public class ProdukServiceImpl implements ProdukService {
 
@@ -39,6 +38,7 @@ public class ProdukServiceImpl implements ProdukService {
     private final KategoriRepository kategoriRepository;
     private final HerokuUrlUtil herokuUrlUtil;
     private final NotifikasiRepository notifikasiRepository;
+    private final GambarProdukRepository gambarProdukRepository;
     private final GambarProdukService gambarProdukService;
 
     @Autowired
@@ -47,6 +47,7 @@ public class ProdukServiceImpl implements ProdukService {
                              KategoriRepository kategoriRepository,
                              HerokuUrlUtil herokuUrlUtil,
                              NotifikasiRepository notifikasiRepository,
+                             GambarProdukRepository gambarProdukRepository,
                              GambarProdukService gambarProdukService
     ) {
         this.produkRepository = produkRepository;
@@ -54,6 +55,7 @@ public class ProdukServiceImpl implements ProdukService {
         this.kategoriRepository = kategoriRepository;
         this.herokuUrlUtil = herokuUrlUtil;
         this.notifikasiRepository = notifikasiRepository;
+        this.gambarProdukRepository =gambarProdukRepository;
         this.gambarProdukService = gambarProdukService;
     }
 
@@ -302,34 +304,90 @@ public class ProdukServiceImpl implements ProdukService {
     }
 
     @Override
-    public WebResponse<String, ?> updateProduk(ProdukUpdateRequest produkUpdateRequest) throws NotFoundException {
+    public ResponseEntity<?> updateProduk(ProdukUpdateRequest produkUpdateRequest) throws NotFoundException, IOException {
 
-        Produk produk = produkRepository.findById(produkUpdateRequest.getIdProduk()).orElseThrow(
-                ()->new NotFoundException("id produk tidak ditemukan"));
+        Optional<Produk> produk = produkRepository.findById(produkUpdateRequest.getIdProduk());
+
+        if (produk.isPresent() == false){
+            throw new NotFoundException("id produk tidak ditemukan");
+        }
+        //validasi jumlah gambar produk
+        if (produkUpdateRequest.getFile().size()>5){
+            return ResponseEntity.badRequest().body( new WebResponse<>(
+                    HttpStatus.BAD_REQUEST.value(),
+                    "BAD REQUEST",
+                    "upload gambar produk tidak boleh lebih dari 5",
+                    ""
+            ));
+        }
+
+        List<MultipartFile> files = produkUpdateRequest.getFile();
+
+        //validasi image
+        for (int file=0; file<files.size(); file++) {
+            if (!ImageValidasi.validasiImage(produkUpdateRequest.getFile().get(file))){
+                return  ResponseEntity.badRequest().body(
+                        new WebResponse<>(
+                                HttpStatus.BAD_REQUEST.value(),
+                                "BAD REQUST",
+                                "format image harus jpg/ png",
+                                ""
+                        )
+                );
+            }
+        }
+
         Users userPenjual = userRepository.
                 findById(produkUpdateRequest.getIdPenjual()).orElseThrow(
                         ()->new NotFoundException("id penjual tidak ditemukan"));
 
-        if (!Objects.equals(produk.getUser().getIdUser(), userPenjual.getIdUser())){
+
+        if (!Objects.equals(produk.get().getUser().getIdUser(), userPenjual.getIdUser())){
             throw new NotFoundException("id produk dengan id penjual anda tidak ada");
         }else {
             Kategori kategori;
             if (produkUpdateRequest.getIdKategori()!= null){
                 kategori= kategoriRepository.findById(produkUpdateRequest.getIdKategori())
                         .orElseThrow(()->new NotFoundException("id kategori tidak ada"));
-                produk.setKategori(kategori);
+                produk.get().setKategori(kategori);
             }
 
-            produk.setNamaProduk(produkUpdateRequest.getNamaProduk());
-            produk.setDeskripsiProduk(produkUpdateRequest.getDeskripsiProduk());
-            produk.setHargaProduk(produkUpdateRequest.getHargaProduk());
-            produkRepository.save(produk);
+            produk.get().setNamaProduk(produkUpdateRequest.getNamaProduk());
+            produk.get().setDeskripsiProduk(produkUpdateRequest.getDeskripsiProduk());
+            produk.get().setHargaProduk(produkUpdateRequest.getHargaProduk());
+
+            List<GambarProduk> listGambarProduk = gambarProdukRepository.findAllGambarProdukByProduk(produk);
+
+            // file dari request
+            for (int file=0; file<files.size(); file++) {
+                // file dari gambar produk
+                if (file<listGambarProduk.size()){
+                    for (int tempId=0; tempId<listGambarProduk.size(); tempId++) {
+                        gambarProdukService.updateGambarProduk(
+                                listGambarProduk.get(tempId).getIdGambarProduk(),
+                                files.get(file).getName(),
+                                files.get(file).getContentType(),
+                                files.get(file).getBytes()
+                        );
+                    }
+                }
+                //add image
+                else {
+                    log.info(String.valueOf(file));
+                    gambarProdukService.uploadGambarProduk(files.get(file),
+                            produkUpdateRequest.getIdProduk());
+                }
+            }
+
+            produkRepository.save(produk.get());
         }
-        return new WebResponse<>(
-                HttpStatus.OK.value(),
-                "OK",
-                "Berhasil update produk",
-                ""
+        return ResponseEntity.ok().body(
+                new WebResponse<>(
+                        HttpStatus.OK.value(),
+                        "OK",
+                        "Berhasil update produk",
+                        ""
+                )
         );
     }
 

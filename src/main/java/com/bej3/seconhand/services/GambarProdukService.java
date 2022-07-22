@@ -12,5 +12,11 @@ public interface GambarProdukService {
     void uploadGambarProduk(MultipartFile file, int idProduk) throws IOException, NotFoundException;
     //    GambarProduk getInfoImageByName(String namaGambar);
     GambarProduk getGambarProduk(int id) throws NotFoundException;
+    void updateGambarProduk(int id,
+                            String namaGambar,
+                            String type,
+                            byte[] gambarProduk
+
+    ) throws NotFoundException;
     Stream<GambarProdukLinkResponse> getGambarProdukByIdProduk(int idProduk);
 }
