@@ -91,11 +91,13 @@ public class ProdukController {
     }
 
     @GetMapping("/cari")
+    @Operation(description = "Untuk pencarian berdasarkan nama tanpa pagination")
     public ResponseEntity<?> searchProdukByNameWithoutPagination(@RequestParam String searchName) throws NotFoundException {
         return produkService.searchProdukByNameWithoutPagination(searchName);
     }
 
     @GetMapping("/kategori")
+    @Operation(description = "Untuk melakukan sorting berdasarkan kategori")
     public ResponseEntity<?> sortProdukByKategoriWithoutPagination(@RequestParam Integer idKategori) throws NotFoundException{
         return produkService.sortProdukByKategoriWithoutPagination(idKategori);
     }
@@ -131,7 +133,9 @@ public class ProdukController {
     @RequestMapping(value = "/update",
             method = RequestMethod.PUT,
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @Operation(description = "untuk update produk", security = @SecurityRequirement(
+    @Operation(description = "untuk update produk , upload gambar max 5, update gambar produk akan menggantikan gambar " +
+            "sebelumnya jika jumlah gambar yang diupload tidak sama dengan sebelumnya maka akan menambahkan gambar baru"
+            , security = @SecurityRequirement(
             name = "bearerAuth"
     ))
     @PreAuthorize("hasRole('SELLER')")
