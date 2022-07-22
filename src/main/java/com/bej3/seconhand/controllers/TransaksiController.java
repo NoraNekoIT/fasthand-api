@@ -80,6 +80,12 @@ public class TransaksiController {
         return transaksiService.getTransaksiByPenjual(idPenjual);
     }
 
+    @PreAuthorize("hasRole('BUYER')")
+    @Operation(description = "untuk mendapatkan list transaksi",
+            security = @SecurityRequirement(
+                    name = "bearerAuth"
+            )
+    )
     @GetMapping("pembeli/{idPembeli}/transaksi")
     public ResponseEntity<?> getTransaksiByPembeli(@PathVariable Integer idPembeli) throws NotFoundException {
         return transaksiService.getTransaksiByPembeli(idPembeli);
