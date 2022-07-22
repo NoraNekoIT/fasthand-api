@@ -227,6 +227,19 @@ public class ProdukServiceImpl implements ProdukService {
     }
 
     @Override
+    public ResponseEntity<?> getProdukByPembeliWishlistWithoutPagination(Integer idPembeli) throws NotFoundException {
+        Users pembeli =userRepository.findById(idPembeli).orElseThrow(
+                ()->new NotFoundException("Id Penjual tidak ada")
+        );
+        Stream<ProdukResponse> produkResponseStream = produkRepository.findAllProdukByWishlistPembeli(pembeli).stream().map(
+                this::convertProdukToProdukResponse
+        );
+        return ResponseEntity.ok().body(
+                produkResponseStream
+        );
+    }
+
+    @Override
     public ResponseEntity<?> getProdukByPenjualTransaksiWithoutPagination(Integer idPenjual) throws NotFoundException {
         Users penjual = userRepository.findById(idPenjual).orElseThrow(
                 ()->new NotFoundException("Id Penjual tidak ada")

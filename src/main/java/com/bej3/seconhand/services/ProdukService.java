@@ -18,6 +18,7 @@ public interface ProdukService {
     ResponseEntity<?> getListProdukWithoutPagination();
     WebResponse<String,?> getListProdukByPenjualWithoutPagination(int idPenjual) throws NotFoundException;
     ResponseEntity<?> getProdukByPenjualWishlistWithoutPagination(Integer idPenjual) throws NotFoundException;
+    ResponseEntity<?> getProdukByPembeliWishlistWithoutPagination(Integer idPembeli) throws NotFoundException;
     ResponseEntity<?> getProdukByPenjualTransaksiWithoutPagination(Integer idPenjual) throws NotFoundException;
     ResponseEntity<?> searchProdukByNameWithoutPagination(String nameProduk) throws NotFoundException;
     ResponseEntity<?> sortProdukByKategoriWithoutPagination(Integer kategori) throws NotFoundException;

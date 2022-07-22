@@ -80,4 +80,8 @@ public class TransaksiController {
         return transaksiService.getTransaksiByPenjual(idPenjual);
     }
 
+    @GetMapping("pembeli/{idPembeli}/transaksi")
+    public ResponseEntity<?> getTransaksiByPembeli(@PathVariable Integer idPembeli) throws NotFoundException {
+        return transaksiService.getTransaksiByPembeli(idPembeli);
+    }
 }
