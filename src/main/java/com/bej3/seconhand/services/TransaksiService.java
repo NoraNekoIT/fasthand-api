@@ -16,4 +16,5 @@ public interface TransaksiService {
     ResponseEntity<?> getPenawaranByPenjual(Integer idPenjual) throws NotFoundException;
 //    //get transaksi by penjual
     ResponseEntity<?> getTransaksiByPenjual(Integer idPenjual) throws NotFoundException;
+    ResponseEntity<?> getTransaksiByPembeli(Integer idPenjual) throws NotFoundException;
 }

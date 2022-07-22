@@ -31,6 +31,11 @@ public interface ProdukRepository extends JpaRepository<Produk, Integer> {
             "AND p.user=:penjual")
     List<Produk> findAllProdukByWishlist(@Param("penjual") Users penjual);
 
+    //wishlist produk join transaksi dimana id produk = id produk, id pembeli nya apa
+    @Query(value = "SELECT DISTINCT p from produk p, transaksi t WHERE p.idProduk = t.produk.idProduk " +
+            "AND t.user=:pembeli")
+    List<Produk> findAllProdukByWishlistPembeli(@Param("pembeli") Users pembeli);
+
     //transaksi produk join transaksi dimana id produk = id produk dengan status penjualan = true
     @Query(value = "SELECT DISTINCT p from produk p, transaksi t WHERE p.idProduk = t.produk.idProduk " +
             "AND p.user=:penjual " +

@@ -79,6 +79,17 @@ public class ProdukController {
         return produkService.getProdukByPenjualWishlistWithoutPagination(idPenjual);
     }
 
+    @GetMapping("/penjual/{idPembeli}/wishlist")
+    @PreAuthorize("hasRole('BUYER')")
+    @Operation(description = "untuk mendapatkan beranda get list berdasarkan id pembeli dan wishlist",
+            security = @SecurityRequirement(
+                    name = "bearerAuth"
+            )
+    )
+    public ResponseEntity<?> getProdukByPembeliWishlistWithoutPagination(@PathVariable Integer idPembeli) throws NotFoundException {
+        return produkService.getProdukByPembeliWishlistWithoutPagination(idPembeli);
+    }
+
     @GetMapping("/penjual/{idPenjual}/transaksi")
     @PreAuthorize("hasRole('SELLER')")
     @Operation(description = "untuk mendapatkan beranda get list berdasarkan id penjual dan transaksi",

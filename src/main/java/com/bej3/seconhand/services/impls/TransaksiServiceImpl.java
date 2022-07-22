@@ -232,6 +232,19 @@ public class TransaksiServiceImpl implements TransaksiService {
         );
     }
 
+    @Override
+    public ResponseEntity<?> getTransaksiByPembeli(Integer idPenjual) throws NotFoundException {
+        Users checkPembeli = userRepository.findById(idPenjual).orElseThrow(
+                () -> new NotFoundException("id penjual tidak ada")
+        );
+        Stream<TransaksiResponse> transaksiResponseStream = transaksiRepository.findAllByUser(checkPembeli).stream().map(
+                this::convertTransaksiToTransaksiResponse
+        );
+        return ResponseEntity.ok().body(
+                transaksiResponseStream
+        );
+    }
+
     private TransaksiPenawaranResponse convertPenawaranToTransaksiPenawaranResponse(Transaksi penawaran){
         return new TransaksiPenawaranResponse(
                 penawaran.getIdTransaksi(),
