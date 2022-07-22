@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity(name = "produk")
 @SQLDelete(sql = "UPDATE produk SET status_terhapus = true WHERE id_produk = ?")
-@Where(clause = "status_terhapus=false and status_terjual=false")
+@Where(clause = "status_terhapus=false")
 public class Produk {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -26,5 +26,5 @@ public interface ProdukService {
 
     WebResponse<String,?> deleteProduk(Integer idProduk,
                                        Integer idPenjual) throws NotFoundException;
-    WebResponse<String,?> updateProduk(ProdukUpdateRequest produkUpdateRequest) throws NotFoundException;
+    ResponseEntity<?> updateProduk(ProdukUpdateRequest produkUpdateRequest) throws NotFoundException, IOException;
 }
